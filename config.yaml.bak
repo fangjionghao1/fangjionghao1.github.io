@@ -2,7 +2,7 @@ baseurl: https://fangjionghao1.github.io/
 languageCode: zh-cn
 theme: hugo-theme-stack
 paginate: 5
-title: FunBlog
+title: Example Site
 
 languages:
     en:
