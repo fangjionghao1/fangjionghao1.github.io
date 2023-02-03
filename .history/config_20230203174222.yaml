@@ -69,11 +69,11 @@ params:
 
   comments:
     enabled: true
-    provider: disqusjs
+    provider: disqus
 
     disqusjs:
       shortname:
-      apiUrl: https://disqus.com/api/oauth/2.0/access_token/
+      apiUrl:
       apiKey: 5d4MG2Sxie9b9n8iGVce1oAd2gfQLqoZkAx5kjFU2dFtRYCWVkxmBmta21VkI5IG
       admin:
       adminLabel:

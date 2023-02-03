@@ -17,14 +17,14 @@ languages:
     weight: 1
 
 # Change it to your Disqus shortname before using
-disqusShortname: 讨论区
+disqusShortname: hugo-theme-stack
 
 # GA Tracking ID
 googleAnalytics:
 
 # Theme i18n support
 # Available values: ar, bn, ca, de, el, en, es, fr, hu, id, it, ja, ko, nl, pt-br, th, uk, zh-cn, zh-hk, zh-tw
-DefaultContentLanguage: zh-cn
+DefaultContentLanguage: en
 
 # Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
 # This will make .Summary and .WordCount behave correctly for CJK languages.
@@ -35,13 +35,11 @@ permalinks:
   page: /:slug/
 
 params:
-  description: 方炅昊的个人博客
   mainSections:
     - post
   featuredImageField: image
   rssFullContent: true
-  favicon: /favicon.ico
-  # e.g.: favicon placed in `static/favicon.ico` of your site folder, then set this field to `/favicon.ico` (`/` is necessary)
+  favicon: # e.g.: favicon placed in `static/favicon.ico` of your site folder, then set this field to `/favicon.ico` (`/` is necessary)
 
   footer:
     since: 2020
@@ -52,7 +50,7 @@ params:
     lastUpdated: Jan 02, 2006 15:04 MST
 
   sidebar:
-    emoji: 🐶
+    emoji: 🍥
     subtitle: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     avatar:
       enabled: true
@@ -60,7 +58,7 @@ params:
       src: img/avatar.png
 
   article:
-    math: true
+    math: false
     toc: true
     readingTime: true
     license:
@@ -69,12 +67,12 @@ params:
 
   comments:
     enabled: true
-    provider: disqusjs
+    provider: disqus
 
     disqusjs:
       shortname:
-      apiUrl: https://disqus.com/api/oauth/2.0/access_token/
-      apiKey: 5d4MG2Sxie9b9n8iGVce1oAd2gfQLqoZkAx5kjFU2dFtRYCWVkxmBmta21VkI5IG
+      apiUrl:
+      apiKey:
       admin:
       adminLabel:
 
@@ -191,12 +189,19 @@ params:
 ### To remove about, archive and search page menu item, remove `menu` field from their FrontMatter
 menu:
   main: []
+
   social:
     - identifier: github
       name: GitHub
-      url: https://github.com/fangjionghao1
+      url: https://github.com/CaiJimmy/hugo-theme-stack
       params:
         icon: brand-github
+
+    - identifier: twitter
+      name: Twitter
+      url: https://twitter.com
+      params:
+        icon: brand-twitter
 
 related:
   includeNewer: true

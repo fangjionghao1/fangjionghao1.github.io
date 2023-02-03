@@ -4,6 +4,7 @@ module:
     min: '0.87.0'
 
 params:
+  description: 个人博客 用于分享经验和心得
   mainSections:
     - post
   featuredImageField: image

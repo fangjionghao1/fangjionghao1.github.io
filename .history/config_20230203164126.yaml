@@ -40,8 +40,7 @@ params:
     - post
   featuredImageField: image
   rssFullContent: true
-  favicon: /favicon.ico
-  # e.g.: favicon placed in `static/favicon.ico` of your site folder, then set this field to `/favicon.ico` (`/` is necessary)
+  favicon: # e.g.: favicon placed in `static/favicon.ico` of your site folder, then set this field to `/favicon.ico` (`/` is necessary)
 
   footer:
     since: 2020
@@ -60,7 +59,7 @@ params:
       src: img/avatar.png
 
   article:
-    math: true
+    math: false
     toc: true
     readingTime: true
     license:
@@ -69,12 +68,12 @@ params:
 
   comments:
     enabled: true
-    provider: disqusjs
+    provider: disqus
 
     disqusjs:
       shortname:
-      apiUrl: https://disqus.com/api/oauth/2.0/access_token/
-      apiKey: 5d4MG2Sxie9b9n8iGVce1oAd2gfQLqoZkAx5kjFU2dFtRYCWVkxmBmta21VkI5IG
+      apiUrl:
+      apiKey:
       admin:
       adminLabel:
 
@@ -191,6 +190,7 @@ params:
 ### To remove about, archive and search page menu item, remove `menu` field from their FrontMatter
 menu:
   main: []
+
   social:
     - identifier: github
       name: GitHub
