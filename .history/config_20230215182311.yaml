@@ -69,7 +69,7 @@ params:
 
   comments:
     enabled: true
-    provider: utterances
+    provider: disqusjs
 
     disqusjs:
       shortname:
@@ -79,7 +79,7 @@ params:
       adminLabel:
 
     utterances:
-      repo: fangjionghao1/fJH-blog-comments
+      repo: fangjionghao1/fangjionghao1.github.io
       issueTerm: pathname
       label:
 
