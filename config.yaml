@@ -79,7 +79,7 @@ params:
       adminLabel:
 
     utterances:
-      repo:
+      repo: fangjionghao1/fangjionghao1.github.io
       issueTerm: pathname
       label:
 
