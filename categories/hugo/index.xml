@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>hugo on HOW个人博客</title><link>https://fangjionghao1.github.io/categories/hugo/</link><description>Recent content in hugo on HOW个人博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 13 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://fangjionghao1.github.io/categories/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>从零开始搭建个人博客</title><link>https://fangjionghao1.github.io/p/test-chinese/</link><pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/test-chinese/</guid><description>&lt;img src="https://fangjionghao1.github.io/p/test-chinese/Snipaste_2023-02-13_18-16-10.png" alt="Featured image of post 从零开始搭建个人博客" />&lt;h4 id="环境准备">环境准备&lt;/h4>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>hugo on HOW个人博客</title><link>https://fangjionghao1.github.io/categories/hugo/</link><description>Recent content in hugo on HOW个人博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 13 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://fangjionghao1.github.io/categories/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>从零开始搭建个人博客</title><link>https://fangjionghao1.github.io/p/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link><pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid><description>&lt;img src="https://fangjionghao1.github.io/p/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/Snipaste_2023-02-13_18-16-10.png" alt="Featured image of post 从零开始搭建个人博客" />&lt;h4 id="环境准备">环境准备&lt;/h4>
 &lt;ul>
 &lt;li>
 &lt;p>系统环境：&lt;strong>Windows 10 专业版&lt;/strong>&lt;/p>
@@ -152,10 +152,10 @@ target="_blank" rel="noopener"
 &lt;/ul>
 &lt;ul>
 &lt;li>第三步，把新代码推送到 github。查看 repo 的 actions 查看是否部署完成，等到部署完，到 setting→pages，将&lt;strong>branch 修改为 gh-pages， 点击 save。&lt;/strong> 过一会，你的主页在 github pages 就托管好了。
-&lt;img src="https://fangjionghao1.github.io/p/test-chinese/Snipaste_2023-02-14_09-21-11.png"
+&lt;img src="https://fangjionghao1.github.io/p/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/Snipaste_2023-02-14_09-21-11.png"
 width="1647"
 height="527"
-srcset="https://fangjionghao1.github.io/p/test-chinese/Snipaste_2023-02-14_09-21-11_hu251d65a6aa4f7d17663aa25c9a3ca35f_105094_480x0_resize_box_3.png 480w, https://fangjionghao1.github.io/p/test-chinese/Snipaste_2023-02-14_09-21-11_hu251d65a6aa4f7d17663aa25c9a3ca35f_105094_1024x0_resize_box_3.png 1024w"
+srcset="https://fangjionghao1.github.io/p/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/Snipaste_2023-02-14_09-21-11_hu251d65a6aa4f7d17663aa25c9a3ca35f_105094_480x0_resize_box_3.png 480w, https://fangjionghao1.github.io/p/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/Snipaste_2023-02-14_09-21-11_hu251d65a6aa4f7d17663aa25c9a3ca35f_105094_1024x0_resize_box_3.png 1024w"
 loading="lazy"
 alt="部署页面示例"
 class="gallery-image"
