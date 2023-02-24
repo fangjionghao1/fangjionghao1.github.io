@@ -1,4 +1,65 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>go on HOW个人博客</title><link>https://fangjionghao1.github.io/categories/go/</link><description>Recent content in go on HOW个人博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 13 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://fangjionghao1.github.io/categories/go/index.xml" rel="self" type="application/rss+xml"/><item><title>设计模式小试（一）</title><link>https://fangjionghao1.github.io/p/%E7%AE%97%E6%B3%95/</link><pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/%E7%AE%97%E6%B3%95/</guid><description>&lt;h4 id="设计模式概念">设计模式概念&lt;/h4>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>go on HOW个人博客</title><link>https://fangjionghao1.github.io/categories/go/</link><description>Recent content in go on HOW个人博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 13 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://fangjionghao1.github.io/categories/go/index.xml" rel="self" type="application/rss+xml"/><item><title>web服务踩的坑</title><link>https://fangjionghao1.github.io/p/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/</link><pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/</guid><description>&lt;h2 id="连载中欢迎补充">连载中。。。欢迎补充&lt;/h2>
+&lt;h3 id="go-篇">GO 篇&lt;/h3>
+&lt;ol>
+&lt;li>go 是强类型的语言，这意味着，变量要被指定，基本类型变量一诞生就带上类型，带上类型意味着占有空间，很自然能想到，基本类型的空值是默认有值的，比如 int 的空为 0 ，string 为&amp;quot;&amp;quot;。所以在序列化的时候这部分内容如果想要一个 null 值需要给结构定义指针。&lt;/li>
+&lt;li>实现接口的时候如果是指针接收者，特别是实现工具自带的接口，比如 marshal，要使用引用。&lt;/li>
+&lt;li>json 序列化的时候要声明一个&lt;strong>临时类型&lt;/strong>，否则会因为自身的反复调用而 stack overflow
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">g&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">Group&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">MarshalJSON&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">([]&lt;/span>&lt;span class="kt">byte&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">type&lt;/span> &lt;span class="nx">tmp&lt;/span> &lt;span class="nx">Group&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">json&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Marshal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">*&lt;/span>&lt;span class="nx">tmp&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">CreateTimeStr&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="s">`json:&amp;#34;create_time&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">tmp&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="nx">tmp&lt;/span>&lt;span class="p">)(&lt;/span>&lt;span class="nx">g&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">CreateTimeStr&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">g&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">CreatTime&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Format&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">consts&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">TLayout&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Date&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>go 的时间类型默认格式是 &lt;code>YYYY-MM-DDTHH:MM:SSZ+0800&lt;/code>,零时间是 &lt;code>0001-01-01 00：00 +0000 &lt;/code>我的做法是日期为 1 的时候判空，不能直接使用。&lt;/li>
+&lt;li>&lt;code>time&lt;/code> 类型直接 &lt;code>string()&lt;/code> 接口转出时间的时候，年月日都是单位的比如 3 月就是输出 3，但是一般要转回时间的时候就需要转换成 03,我的做法是静态的对应表，放在 util 里面需要的时候再用。&lt;/li>
+&lt;/ol>
+&lt;h3 id="http-篇">http 篇&lt;/h3>
+&lt;ol>
+&lt;li>前端数据不可信，不做修改的时候以后端数据为准，唯一值得参考的就是提供的身份信息，包括但不仅限于 id,token。做修改时以前端数据为准。&lt;/li>
+&lt;li>由于前后端要交换数据，其实选择 string 作为交换的格式挺有风险。举个例子就是时间选用 string 类型的时候后果是每次交互两边都要进行&lt;/li>
+&lt;/ol>
+&lt;h3 id="fiber-篇">Fiber 篇&lt;/h3>
+&lt;ol>
+&lt;li>fiber 注册的 handler 是有前后顺序分别的。原因是他在给 app 设置 handler 的时候底层实现是一个 slice。前后调用有区别就意味着不管是路由谁捕捉到，还是过滤器的先后都是有关系的。&lt;/li>
+&lt;li>staic 提供了很好的静态资源服务，但是要对静态资源做一些处理就很麻烦。我的做法是在 config next 字段加入一些回调能过抓得到 ctx 传下来的 token。对于一些用户相关的资源可以这么做但是不建议。&lt;/li>
+&lt;li>中间件文件系统暂时没看懂是怎么用的&lt;/li>
+&lt;/ol>
+&lt;h3 id="gorm-篇">gorm 篇&lt;/h3>
+&lt;p>综述：gorm 的坑还是非常多的，一不小心就会用错，如果现在开放出来的函数不能实现需求的话建议还是用&lt;code>raw()&lt;/code>&lt;/p>
+&lt;h6 id="查询篇">查询篇&lt;/h6>
+&lt;ol>
+&lt;li>where()方法和 or 方法一起使用的时候，以 or 为分界拼接 sql。简单来说就是 or 之后是一个新的子句。&lt;/li>
+&lt;li>first 方法在查找不到记录的时候会返回一个 notfound 错误，需要做处理，但是 find 不会。&lt;/li>
+&lt;/ol>
+&lt;h5 id="声明篇">声明篇&lt;/h5>
+&lt;ol>
+&lt;li>默认的表名，字段名是驼峰改蛇形&lt;/li>
+&lt;li>model 单数会自动加复数 s&lt;/li>
+&lt;li>table 不会触发 hook&lt;/li>
+&lt;li>在 gorm.DB 的 model 是使用的时候设置的，如果还想给 hook 传递信息只有通过 set，但是考虑到并发的时候，并不建议给单例 set，可以 getinstance 做一次克隆在给 db set 一些参考的参数。而且 get 需要通过制定的关键字获取，这就意味着要对参数做约定。业务一多，约定的关键字就成了关键字表，不统一管理前后不对照会 panic&lt;/li>
+&lt;/ol>
+&lt;h3 id="viper配置篇">viper（配置篇）&lt;/h3></description></item><item><title>设计模式小试（一）</title><link>https://fangjionghao1.github.io/p/%E7%AE%97%E6%B3%95/</link><pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/%E7%AE%97%E6%B3%95/</guid><description>&lt;h4 id="设计模式概念">设计模式概念&lt;/h4>
 &lt;h5 id="简述">简述&lt;/h5>
 &lt;p>设计模式将算法和具体实现的对象分离&lt;/p>
 &lt;h6 id="问题描述">问题描述&lt;/h6>
