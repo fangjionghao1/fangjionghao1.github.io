@@ -1,4 +1,34 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>go on HOW个人博客</title><link>https://fangjionghao1.github.io/categories/go/</link><description>Recent content in go on HOW个人博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 13 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://fangjionghao1.github.io/categories/go/index.xml" rel="self" type="application/rss+xml"/><item><title>excelize 库简介</title><link>https://fangjionghao1.github.io/p/%E5%B7%A5%E5%85%B7/</link><pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/%E5%B7%A5%E5%85%B7/</guid><description>&lt;h4 id="背景">背景&lt;/h4>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>go on HOW个人博客</title><link>https://fangjionghao1.github.io/categories/go/</link><description>Recent content in go on HOW个人博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 24 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://fangjionghao1.github.io/categories/go/index.xml" rel="self" type="application/rss+xml"/><item><title>定时器（待整理）</title><link>https://fangjionghao1.github.io/p/%E5%B7%A5%E5%85%B7/</link><pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/%E5%B7%A5%E5%85%B7/</guid><description>&lt;h3 id="背景">背景&lt;/h3>
+&lt;p>系统中有一些定时任务。部署环境&lt;code>windows2003r&lt;/code>,所以不能使用 linux 的 crontab 来做定时任务，另外就是编译成一个一个小工具，每次有新的定时任务就要做一个新的小工具。而且代码全封装，像是一个个 dll,如果有问题不好调试。
+为此考虑制作一个定时任务调度的小系统。&lt;/p>
+&lt;h3 id="思路">思路&lt;/h3>
+&lt;p>需要做的功能从底下到上层分别有
+计时器:轮询计时任务列表，不断尝试拿出队头元素，检查是否到了 firetime，如果到了 firetime 执行相应的函数。
+计时器离线功能：假如计时器始终在内存中，基本库都能实现这些功能。但是如果系统异常断电还要继续拉起未完成的定时任务，这时候就要考虑两个方向，一个是断线期间过期的任务怎么办，一个是怎么找到之前内存中的计时器。
+所以要做持久。
+持久的基本思路是：把计时器相关的内容放进数据库（入磁盘-可以不是数据库，文件一样可行）。计时器的相关内容包括，下一个执行时间和执行的函数，由于回调在内存中每次重启函数的内存位置都不好找所以换个思路就是用回调关键字来注册。熟悉微服务的朋友也许就感觉，这不是有点 etcd 的味道了。这样一来每次重启都能恢复计时器。
+进一步既然要有回调函数，就要对回调函数进行管理
+回调函数管理：包括回调的启停和注册注销
+计时器的管理：单纯顺着的计时器并不好用，所以要加上&lt;/p>
+&lt;ol>
+&lt;li>找到上一个执行周期&lt;/li>
+&lt;li>找下一个执行周期&lt;/li>
+&lt;/ol>
+&lt;p>所以持久的内容又要加上上一个执行计时器的时间。&lt;/p>
+&lt;p>到目前为止 计时器需要记录 关键字，下一个执行时间（或上一个（如果嫌麻烦可以两个都记录））&lt;/p>
+&lt;h3 id="连载中">连载中。。。&lt;/h3>
+&lt;h5 id="20230301-更新">20230301 更新&lt;/h5>
+&lt;p>发现计时器对于数据库有依赖，这样变成了数据库和定时器深度耦合，对于之后扩展定时任务不利，很容易造成循环依赖。
+所以选择了一个做法就是内存计时器在计时的时候提供相关数据给关心的组件订阅，这个订阅动作在计时器开始的时候就已经准备好了。
+比如数据库关心这部分的数据，就会拿走相应的结构，比如执行的计时器以及计时器的时间&lt;/p>
+&lt;blockquote>
+&lt;p>关于这个设计有一点要提一下，最早是只提供 id 让数据库根据 id 自己玩，后面发现由于计时器的间隔不一样，同时开始的两个计时器最终的 firetime 会相差甚远。于是加上了执行时间，计时器只记录下一个启动时间。
+但是这样设计就立刻暴露出两个问题。&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>保持这样的设计保证顺序，要加一个 broker 让其他关心的组件多消费。&lt;/li>
+&lt;li>不同组件关心的数据不同，broker 是否要加上处理的逻辑&lt;/li>
+&lt;/ul></description></item><item><title>excelize 库简介</title><link>https://fangjionghao1.github.io/p/%E5%B7%A5%E5%85%B7/</link><pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/%E5%B7%A5%E5%85%B7/</guid><description>&lt;h4 id="背景">背景&lt;/h4>
 &lt;p>从表格导入一些用户数据
 顺手开发了这些工具。
 本文的前提是了解了基本函数的使用方法，因为有中文文档就不再赘述
