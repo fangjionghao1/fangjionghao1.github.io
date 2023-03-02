@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>crontab on HOW个人博客</title><link>https://fangjionghao1.github.io/categories/crontab/</link><description>Recent content in crontab on HOW个人博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 13 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://fangjionghao1.github.io/categories/crontab/index.xml" rel="self" type="application/rss+xml"/><item><title>web服务踩的坑</title><link>https://fangjionghao1.github.io/p/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/</link><pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/</guid><description>&lt;h2 id="连载中欢迎补充">连载中。。。欢迎补充&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>crontab on HOW个人博客</title><link>https://fangjionghao1.github.io/categories/crontab/</link><description>Recent content in crontab on HOW个人博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 24 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://fangjionghao1.github.io/categories/crontab/index.xml" rel="self" type="application/rss+xml"/><item><title>web服务踩的坑</title><link>https://fangjionghao1.github.io/p/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/</link><pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/</guid><description>&lt;h2 id="连载中欢迎补充">连载中。。。欢迎补充&lt;/h2>
 &lt;h3 id="go-篇">GO 篇&lt;/h3>
 &lt;ol>
 &lt;li>go 是强类型的语言，这意味着，变量要被指定，基本类型变量一诞生就带上类型，带上类型意味着占有空间，很自然能想到，基本类型的空值是默认有值的，比如 int 的空为 0 ，string 为&amp;quot;&amp;quot;。所以在序列化的时候这部分内容如果想要一个 null 值需要给结构定义指针。&lt;/li>
@@ -52,6 +52,10 @@
 &lt;li>where()方法和 or 方法一起使用的时候，以 or 为分界拼接 sql。简单来说就是 or 之后是一个新的子句。&lt;/li>
 &lt;li>first 方法在查找不到记录的时候会返回一个 notfound 错误，需要做处理，但是 find 不会。&lt;/li>
 &lt;/ol>
+&lt;h5 id="创建篇">创建篇&lt;/h5>
+&lt;ol>
+&lt;li>在给类型写 scanner valuer 接口的时候 valuer 的接收者不能是指针接收者，否则无法触发相关行为&lt;/li>
+&lt;/ol>
 &lt;h5 id="声明篇">声明篇&lt;/h5>
 &lt;ol>
 &lt;li>默认的表名，字段名是驼峰改蛇形&lt;/li>
@@ -59,4 +63,101 @@
 &lt;li>table 不会触发 hook&lt;/li>
 &lt;li>在 gorm.DB 的 model 是使用的时候设置的，如果还想给 hook 传递信息只有通过 set，但是考虑到并发的时候，并不建议给单例 set，可以 getinstance 做一次克隆在给 db set 一些参考的参数。而且 get 需要通过制定的关键字获取，这就意味着要对参数做约定。业务一多，约定的关键字就成了关键字表，不统一管理前后不对照会 panic&lt;/li>
 &lt;/ol>
-&lt;h3 id="viper配置篇">viper（配置篇）&lt;/h3></description></item></channel></rss>
+&lt;h3 id="viper配置篇">viper（配置篇）&lt;/h3>
+&lt;h3 id="moby-篇docker">moby 篇（docker）&lt;/h3>
+&lt;h4 id="reexec-篇">reexec 篇&lt;/h4>
+&lt;p>moby 下一个很方便的工具包，基本上是零以来，可以直接拷贝下来使用。
+moby 的基本原理有时间再研究，讲一下注意点。
+他会在 arg[0]里设置任务的 pid 让主程序作为子程序的守护，并管理子程序的生命周期。如果想要做守护就是拿着 run()返回的 pid 去反复重启任务。&lt;/p>
+&lt;blockquote>
+&lt;h6 id="源码阅读">源码阅读&lt;/h6>
+&lt;p>cmd_windows.go&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">reexec&lt;/span> &lt;span class="c1">// import &amp;#34;github.com/docker/docker/pkg/reexec&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;os/exec&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Self returns the path to the current process&amp;#39;s binary.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Uses os.Args[0].
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">Self&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nf">naiveSelf&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Command returns *exec.Cmd which has Path as current binary.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// For example if current binary is &amp;#34;docker.exe&amp;#34; at &amp;#34;C:\&amp;#34;, then cmd.Path will
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// be set to &amp;#34;C:\docker.exe&amp;#34;.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">Command&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">args&lt;/span> &lt;span class="o">...&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">exec&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Cmd&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">exec&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Cmd&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Path&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nf">Self&lt;/span>&lt;span class="p">(),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Args&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">args&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>reexec.go&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">naiveSelf&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">name&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Args&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">filepath&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Base&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">name&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="nx">name&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">lp&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">exec&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">LookPath&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">name&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">lp&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// handle conversion of relative paths to absolute
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">if&lt;/span> &lt;span class="nx">absName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">filepath&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Abs&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">name&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">absName&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// if we couldn&amp;#39;t get absolute name, return original
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// (NOTE: Go only errors on Abs() if os.Getwd fails)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>
