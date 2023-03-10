@@ -30,7 +30,7 @@ categories:
        })
    }
    ```
-4. go 的时间类型默认格式是 `YYYY-MM-DDTHH:MM:SSZ+0800`,零时间是 `0001-01-01 00：00 +0000 `我的做法是年为 1 的时候判空，不能直接使用。
+4. go 的时间类型默认格式是 `YYYY-MM-DDTHH:MM:SSZ+0800`,零时间是 `0001-01-01 00：00 +0000 `我的做法是日期为 1 的时候判空，不能直接使用。
 5. `time` 类型直接 `string()` 接口转出时间的时候，年月日都是单位的比如 3 月就是输出 3，但是一般要转回时间的时候就需要转换成 03,我的做法是静态的对应表，放在 util 里面需要的时候再用。
 
 ### http 篇
@@ -121,7 +121,6 @@ import (
 var registeredInitializers = make(map[string]func())
 
 // Register adds an initialization func under the specified name
-// 不作过多解释 用map来注册一个非重复的进程初始化回调，名字冲突时panic
 func Register(name string, initializer func()) {
 	if _, exists := registeredInitializers[name]; exists {
 		panic(fmt.Sprintf("reexec func already registered under name %q", name))
@@ -157,50 +156,4 @@ func naiveSelf() string {
 	return name
 }
 
-```
-
-> 工具使用
-
-```go
-var args []string
-	args = append(append(append(args, "xxx"), strconv.Itoa(os.Getpid())), os.Args[1:]...)
-	reexec.Register("xxx", App)
-	reexec.Register("xxxxx", AppSdk)
-	if reexec.Init() {
-		logger.Log.Error("init mps process error")
-		os.Exit(0)
-	}
-	logger.Log.Infof("[%v] process daemon process start ,os args [%v] -----------startTime--[ %v ]", os.Getpid(), os.Args, time.Now().String())
-	go func() {
-		var stdErr bytes.Buffer
-		for {
-			select {
-			case <-OverChan:
-				return
-			default:
-				cmd := reexec.Command("xxxxx", strconv.Itoa(os.Getpid()))
-				cmd.Stderr = &stdErr
-				err := cmd.Run()
-				if err != nil {
-					logger.Log.Errorf("command error [%v]\n", stdErr.String())
-				}
-				time.Sleep(restartDuration)
-			}
-		}
-	}()
-	var stdErr bytes.Buffer
-	for {
-		select {
-		case <-OverChan:
-			return
-		default:
-			cmd := reexec.Command("xxx", strconv.Itoa(os.Getpid()))
-			cmd.Stderr = &stdErr
-			err := cmd.Run()
-			if err != nil {
-				logger.Log.Errorf("command error [%v]\n", stdErr.String())
-			}
-			time.Sleep(restartDuration)
-		}
-	}
 ```
