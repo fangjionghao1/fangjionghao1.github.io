@@ -353,13 +353,79 @@
 &lt;li>fiber 注册的 handler 是有前后顺序分别的。原因是他在给 app 设置 handler 的时候底层实现是一个 slice。前后调用有区别就意味着不管是路由谁捕捉到，还是过滤器的先后都是有关系的。&lt;/li>
 &lt;li>staic 提供了很好的静态资源服务，但是要对静态资源做一些处理就很麻烦。我的做法是在 config next 字段加入一些回调能过抓得到 ctx 传下来的 token。对于一些用户相关的资源可以这么做但是不建议。&lt;/li>
 &lt;li>中间件文件系统暂时没看懂是怎么用的&lt;/li>
+&lt;li>&lt;a class="link" href="https://docs.gofiber.io/api/ctx#queryparser/" target="_blank" rel="noopener"
+>queryParse&lt;/a>这个接口能够直接将 url 上的参数用逗号分隔符解析到 string 数组当中，但是如果不传参数就会得到一个长度为 1 第一位是空字符的参数
+另外这个函数的实现原理是反射，所以他只会根据反射获取结构名称，json 标签不起作用，要客制化的需求又想使用这个功能就从反射这块下功夫。&lt;/li>
 &lt;/ol>
-&lt;h3 id="gorm-篇">gorm 篇&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">TestQueryParse&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">testing&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">T&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">app&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">fiber&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">New&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">app&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">ctx&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">fiber&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Ctx&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="kt">error&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">res&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Id&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="s">`json:&amp;#34;id&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">NameAA&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="s">`json:&amp;#34;name_aA&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">NameaA&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="s">`json:&amp;#34;namea_a&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">ctx&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">QueryParser&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">res&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">ctx&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SendStatus&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusInternalServerError&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">t&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">res&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">ctx&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SendStatus&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">req&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">httptest&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewRequest&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;GET&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;/?id=23&amp;amp;nameAA=nameAA&amp;amp;namea_a=namea_a&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">nil&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">resp&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">app&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Test&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">req&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">assert&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NoError&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">all&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">io&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">ReadAll&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">resp&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Body&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">assert&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NoError&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">t&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">string&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">all&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm">/*
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm">=== RUN TestQueryParse
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm"> main_test.go:49: {23 nameAA }
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm"> main_test.go:57: OK
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm">--- PASS: TestQueryParse (0.00s)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm">*/&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="gorm-篇">gorm 篇&lt;/h3>
 &lt;p>综述：gorm 的坑还是非常多的，一不小心就会用错，如果现在开放出来的函数不能实现需求的话建议还是用&lt;code>raw()&lt;/code>&lt;/p>
 &lt;h6 id="查询篇">查询篇&lt;/h6>
 &lt;ol>
 &lt;li>where()方法和 or 方法一起使用的时候，以 or 为分界拼接 sql。简单来说就是 or 之后是一个新的子句。&lt;/li>
 &lt;li>first 方法在查找不到记录的时候会返回一个 notfound 错误，需要做处理，但是 find 不会。&lt;/li>
+&lt;li>在版本 1.32.6 版本中，存在一个问题，如果数据库中存在空值，并将数据查询结果写入切片的时候，表项的空（NULL）值会使用上一条数据的值。&lt;/li>
 &lt;/ol>
 &lt;h5 id="创建篇">创建篇&lt;/h5>
 &lt;ol>
@@ -667,8 +733,13 @@ moby 的基本原理有时间再研究，讲一下注意点。
 &lt;/blockquote>
 &lt;/li>
 &lt;li>风险是：数据竞争，加了锁也有两个回调同时执行的可能。把回调分配出去意味着回收要去定时堆里面找&lt;/li>
-&lt;li>收益是：方便做回调的管理，&lt;/li>
-&lt;/ul></description></item><item><title>热部署方案小记</title><link>https://fangjionghao1.github.io/p/funjohnhow/</link><pubDate>Mon, 20 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/funjohnhow/</guid><description>&lt;img src="https://fangjionghao1.github.io/p/funjohnhow/funJohnHow_full_body_long_shot_screen_grab_portrait_from_2000_f_129b24b9-ba6f-4edc-969c-c6ce1b8e9f98.png" alt="Featured image of post 热部署方案小记" />&lt;h2 id="背景">背景&lt;/h2>
+&lt;li>收益是：方便做回调的管理&lt;/li>
+&lt;/ul>
+&lt;h5 id="20230310-更新">20230310 更新&lt;/h5>
+&lt;p>计时器的事情空闲时间又想到了一些问题。
+为了解耦加上了一个管道去消费，解耦非常完美，关注的人去消费就好了。但是问题是如果出现错误应该用什么机制去处理。
+计时器是顺序的，如果过去的处理影响了现在的处理，就一定会有一次定时任务夹在两次调用之间被持久层当成没有发生过从而产生多一次或者少一次的情况。
+为了处理这个问题，我试着引入一种机制：增加一个重试队列，带着任务的 id 和触发时间，如果下一次触发时间晚于当前时间，被当做是过期的重试。过期重试不执行。&lt;/p></description></item><item><title>热部署方案小记</title><link>https://fangjionghao1.github.io/p/funjohnhow/</link><pubDate>Mon, 20 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/funjohnhow/</guid><description>&lt;img src="https://fangjionghao1.github.io/p/funjohnhow/funJohnHow_full_body_long_shot_screen_grab_portrait_from_2000_f_129b24b9-ba6f-4edc-969c-c6ce1b8e9f98.png" alt="Featured image of post 热部署方案小记" />&lt;h2 id="背景">背景&lt;/h2>
 &lt;hr>
 &lt;p>在开发 http 服务的时候日常要修修补补，免不了要暂停线上的服务然后发通告更新服务，之后进行非常紧张的更新部署，并在小范围用特殊账号测试做个基本的线上回归。
 加入部署出现问题，这时候就要继续发通告延期，久了更新维护更紧张。

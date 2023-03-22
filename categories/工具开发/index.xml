@@ -342,8 +342,13 @@
 &lt;/blockquote>
 &lt;/li>
 &lt;li>风险是：数据竞争，加了锁也有两个回调同时执行的可能。把回调分配出去意味着回收要去定时堆里面找&lt;/li>
-&lt;li>收益是：方便做回调的管理，&lt;/li>
-&lt;/ul></description></item><item><title>热部署方案小记</title><link>https://fangjionghao1.github.io/p/funjohnhow/</link><pubDate>Mon, 20 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/funjohnhow/</guid><description>&lt;img src="https://fangjionghao1.github.io/p/funjohnhow/funJohnHow_full_body_long_shot_screen_grab_portrait_from_2000_f_129b24b9-ba6f-4edc-969c-c6ce1b8e9f98.png" alt="Featured image of post 热部署方案小记" />&lt;h2 id="背景">背景&lt;/h2>
+&lt;li>收益是：方便做回调的管理&lt;/li>
+&lt;/ul>
+&lt;h5 id="20230310-更新">20230310 更新&lt;/h5>
+&lt;p>计时器的事情空闲时间又想到了一些问题。
+为了解耦加上了一个管道去消费，解耦非常完美，关注的人去消费就好了。但是问题是如果出现错误应该用什么机制去处理。
+计时器是顺序的，如果过去的处理影响了现在的处理，就一定会有一次定时任务夹在两次调用之间被持久层当成没有发生过从而产生多一次或者少一次的情况。
+为了处理这个问题，我试着引入一种机制：增加一个重试队列，带着任务的 id 和触发时间，如果下一次触发时间晚于当前时间，被当做是过期的重试。过期重试不执行。&lt;/p></description></item><item><title>热部署方案小记</title><link>https://fangjionghao1.github.io/p/funjohnhow/</link><pubDate>Mon, 20 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/funjohnhow/</guid><description>&lt;img src="https://fangjionghao1.github.io/p/funjohnhow/funJohnHow_full_body_long_shot_screen_grab_portrait_from_2000_f_129b24b9-ba6f-4edc-969c-c6ce1b8e9f98.png" alt="Featured image of post 热部署方案小记" />&lt;h2 id="背景">背景&lt;/h2>
 &lt;hr>
 &lt;p>在开发 http 服务的时候日常要修修补补，免不了要暂停线上的服务然后发通告更新服务，之后进行非常紧张的更新部署，并在小范围用特殊账号测试做个基本的线上回归。
 加入部署出现问题，这时候就要继续发通告延期，久了更新维护更紧张。
