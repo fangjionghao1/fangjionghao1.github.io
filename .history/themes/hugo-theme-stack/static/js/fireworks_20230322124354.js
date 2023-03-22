@@ -189,20 +189,20 @@ function animateParticules(e, t) {
 		y: function(e) {
 			return e.endPos.y
 		},
-		radius: 0.3,
-		duration: anime.random(1000, 1800),
+		radius: 0.1,
+		duration: anime.random(1200, 1800),
 		easing: "easeOutExpo",
 		update: renderParticule
 	}).add({
 		targets: a,
-		radius: anime.random(40, 160),
+		radius: anime.random(80, 160),
 		lineWidth: 0,
 		alpha: {
 			value: 0,
 			easing: "linear",
-			duration: anime.random(300, 800)
+			duration: anime.random(600, 800)
 		},
-		duration: anime.random(600, 1800),
+		duration: anime.random(1200, 1800),
 		easing: "easeOutExpo",
 		update: renderParticule,
 		offset: 0

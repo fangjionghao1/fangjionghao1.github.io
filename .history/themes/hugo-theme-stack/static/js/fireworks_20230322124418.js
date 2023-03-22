@@ -189,7 +189,7 @@ function animateParticules(e, t) {
 		y: function(e) {
 			return e.endPos.y
 		},
-		radius: 0.3,
+		radius: 0.1,
 		duration: anime.random(1000, 1800),
 		easing: "easeOutExpo",
 		update: renderParticule
