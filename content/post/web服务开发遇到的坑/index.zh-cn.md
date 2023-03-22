@@ -43,6 +43,39 @@ categories:
 1. fiber 注册的 handler 是有前后顺序分别的。原因是他在给 app 设置 handler 的时候底层实现是一个 slice。前后调用有区别就意味着不管是路由谁捕捉到，还是过滤器的先后都是有关系的。
 2. staic 提供了很好的静态资源服务，但是要对静态资源做一些处理就很麻烦。我的做法是在 config next 字段加入一些回调能过抓得到 ctx 传下来的 token。对于一些用户相关的资源可以这么做但是不建议。
 3. 中间件文件系统暂时没看懂是怎么用的
+4. [queryParse](https://docs.gofiber.io/api/ctx#queryparser/)这个接口能够直接将 url 上的参数用逗号分隔符解析到 string 数组当中，但是如果不传参数就会得到一个长度为 1 第一位是空字符的参数
+   另外这个函数的实现原理是反射，所以他只会根据反射获取结构名称，json 标签不起作用，要客制化的需求又想使用这个功能就从反射这块下功夫。
+
+```go
+func TestQueryParse(t *testing.T) {
+	app := fiber.New()
+	app.Get("/", func(ctx *fiber.Ctx) error {
+		var res struct {
+			Id     int    `json:"id"`
+			NameAA string `json:"name_aA"`
+			NameaA string `json:"namea_a"`
+		}
+		err := ctx.QueryParser(&res)
+		if err != nil {
+			return ctx.SendStatus(http.StatusInternalServerError)
+		}
+		t.Log(res)
+		return ctx.SendStatus(http.StatusOK)
+	})
+	req := httptest.NewRequest("GET", "/?id=23&nameAA=nameAA&namea_a=namea_a", nil)
+	resp, err := app.Test(req, -1)
+	assert.NoError(t, err)
+	all, err := io.ReadAll(resp.Body)
+	assert.NoError(t, err)
+	t.Log(string(all))
+}
+/*
+=== RUN   TestQueryParse
+    main_test.go:49: {23 nameAA }
+    main_test.go:57: OK
+--- PASS: TestQueryParse (0.00s)
+*/
+```
 
 ### gorm 篇
 
@@ -52,6 +85,7 @@ categories:
 
 1. where()方法和 or 方法一起使用的时候，以 or 为分界拼接 sql。简单来说就是 or 之后是一个新的子句。
 2. first 方法在查找不到记录的时候会返回一个 notfound 错误，需要做处理，但是 find 不会。
+3. 在版本 1.32.6 版本中，存在一个问题，如果数据库中存在空值，并将数据查询结果写入切片的时候，表项的空（NULL）值会使用上一条数据的值。
 
 ##### 创建篇
 
