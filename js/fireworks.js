@@ -189,20 +189,20 @@ function animateParticules(e, t) {
 		y: function(e) {
 			return e.endPos.y
 		},
-		radius: 0.1,
-		duration: anime.random(2400, 3600),
+		radius: 0.3,
+		duration: anime.random(1000, 1800),
 		easing: "easeOutExpo",
 		update: renderParticule
 	}).add({
 		targets: a,
-		radius: anime.random(160, 320),
+		radius: anime.random(40, 160),
 		lineWidth: 0,
 		alpha: {
 			value: 0,
 			easing: "linear",
-			duration: anime.random(1200, 1600)
+			duration: anime.random(300, 800)
 		},
-		duration: anime.random(2400, 3600),
+		duration: anime.random(600, 1800),
 		easing: "easeOutExpo",
 		update: renderParticule,
 		offset: 0
@@ -223,7 +223,7 @@ function debounce(e, t) {
 var canvasEl = document.querySelector(".fireworks");
 if (canvasEl) {
 	var ctx = canvasEl.getContext("2d"),
-	numberOfParticules = 199,
+	numberOfParticules = 298,
 	pointerX = 0,
 	pointerY = 0,
 	tap = "mousedown",
