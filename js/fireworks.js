@@ -101,7 +101,7 @@ if (canvasEl) {
 	pointerX = 0,
 	pointerY = 0,
 	tap = "mousedown",
-	colors = ["#FF1461", "#18FF92", "#5A87FF", "#FBF38C"],
+	colors = ["#95e1d3", "#eaffd0", "#fce38a", "#f38181"],
 	setCanvasSize = debounce(function() {
 		canvasEl.width = 2 * window.innerWidth,
 		canvasEl.height = 2 * window.innerHeight,
@@ -223,7 +223,7 @@ function debounce(e, t) {
 var canvasEl = document.querySelector(".fireworks");
 if (canvasEl) {
 	var ctx = canvasEl.getContext("2d"),
-	numberOfParticules = 298,
+	numberOfParticules = 29,
 	pointerX = 0,
 	pointerY = 0,
 	tap = "mousedown",
