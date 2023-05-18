@@ -23,6 +23,7 @@
     {{- partial "head/head.html" . -}} {{- block "head" . -}}{{ end }}
   </head>
   <body class="{{ block `body-class` . }}{{ end }}">
+    <div id="particles-js"></div>
     {{- partial "head/colorScheme" . -}} {{/* The container is wider when
     there's any activated widget */}} {{- $hasWidget := false -}} {{- range
     .Site.Params.widgets -}} {{- if gt (len .) 0 -}} {{- $hasWidget = true -}}

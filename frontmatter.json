@@ -1,0 +1,78 @@
+{
+  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "default",
+      "pageBundle": false,
+      "previewPath": null,
+      "fields": [
+        {
+          "title": "title",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "title": "description",
+          "name": "description",
+          "type": "datetime"
+        },
+        {
+          "title": "date",
+          "name": "date",
+          "type": "datetime"
+        },
+        {
+          "title": "image",
+          "name": "image",
+          "type": "image"
+        },
+        {
+          "title": "math",
+          "name": "math",
+          "type": "datetime"
+        },
+        {
+          "title": "license",
+          "name": "license",
+          "type": "datetime"
+        },
+        {
+          "title": "hidden",
+          "name": "hidden",
+          "type": "datetime"
+        },
+        {
+          "title": "comments",
+          "name": "comments",
+          "type": "datetime"
+        },
+        {
+          "title": "draft",
+          "name": "draft",
+          "type": "datetime"
+        }
+      ]
+    }
+  ],
+  "frontMatter.framework.id": "hugo",
+  "frontMatter.content.publicFolder": "static",
+  "frontMatter.preview.host": "http://localhost:1313",
+  "frontMatter.content.pageFolders": [
+    {
+      "path": "[[workspace]]/content",
+      "title": "content"
+    },
+    {
+      "path": "[[workspace]]/content/categories/go",
+      "title": "go"
+    },
+    {
+      "path": "[[workspace]]/content/page/search",
+      "title": "search"
+    },
+    {
+      "path": "[[workspace]]/content/post/关于聊天的随笔",
+      "title": "关于聊天的随笔"
+    }
+  ]
+}
