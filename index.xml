@@ -1136,7 +1136,15 @@ data-flex-basis="750px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>如果想要更极端的访问者，可以直接使用实例充当访问者，只不过耦合度就高了很多，顺着这个想法下去他就是在这个类型上开了个口子写了装饰器。所以耦合程度从高到低是 装饰&amp;gt;填充实例&amp;gt;访问者&lt;/p></description></item><item><title/><link>https://fangjionghao1.github.io/p/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/</guid><description/></item><item><title>Links</title><link>https://fangjionghao1.github.io/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/links/</guid><description>&lt;p>To use this feature, add &lt;code>links&lt;/code> section to frontmatter.&lt;/p>
+&lt;/div>&lt;p>如果想要更极端的访问者，可以直接使用实例充当访问者，只不过耦合度就高了很多，顺着这个想法下去他就是在这个类型上开了个口子写了装饰器。所以耦合程度从高到低是 装饰&amp;gt;填充实例&amp;gt;访问者&lt;/p></description></item><item><title/><link>https://fangjionghao1.github.io/p/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/</guid><description>&lt;h3 id="问题背景">问题背景&lt;/h3>
+&lt;p>写测试的时候需要 mock 请求，发现整个流程相当复杂&lt;/p>
+&lt;ul>
+&lt;li>读文件&lt;/li>
+&lt;li>拷贝到 multiform.Writer&lt;/li>
+&lt;li>用 writer 写 filed&lt;/li>
+&lt;li>parse 到 multiform&lt;/li>
+&lt;li>从 http.Request 当中取出 multiform&lt;/li>
+&lt;/ul></description></item><item><title>Links</title><link>https://fangjionghao1.github.io/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/links/</guid><description>&lt;p>To use this feature, add &lt;code>links&lt;/code> section to frontmatter.&lt;/p>
 &lt;p>This page&amp;rsquo;s frontmatter:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
