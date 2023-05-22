@@ -1,0 +1,19 @@
+---
+title: '日语单词'
+description:
+date: 2023-05-22T11:01:41+08:00
+image:
+math:
+license:
+hidden: false
+comments: true
+draft: faslse
+---
+
+### 木漏れ日
+
+罗马音 komorebi
+日 hi 发生连浊变成 bi
+中高型 东京方言 ko 高 more 低高 bi 高
+ko 木
+more 漏^も れ 洩露，穿過 是漏^も れる moreru 的连用型 morata 漏^も れ是过去式
