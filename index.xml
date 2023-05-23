@@ -1,9 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HOW个人博客</title><link>https://fangjionghao1.github.io/</link><description>Recent content on HOW个人博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 22 May 2023 11:01:41 +0800</lastBuildDate><atom:link href="https://fangjionghao1.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>日语单词</title><link>https://fangjionghao1.github.io/p/%E6%97%A5%E8%AF%AD%E5%8D%95%E8%AF%8D/</link><pubDate>Mon, 22 May 2023 11:01:41 +0800</pubDate><guid>https://fangjionghao1.github.io/p/%E6%97%A5%E8%AF%AD%E5%8D%95%E8%AF%8D/</guid><description>&lt;h3 id="木漏れ日">木漏れ日&lt;/h3>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HOW个人博客</title><link>https://fangjionghao1.github.io/</link><description>Recent content on HOW个人博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 23 May 2023 05:40:19 +0000</lastBuildDate><atom:link href="https://fangjionghao1.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>随手记</title><link>https://fangjionghao1.github.io/p/%E9%9A%8F%E6%89%8B%E8%AE%B0/</link><pubDate>Tue, 23 May 2023 05:40:19 +0000</pubDate><guid>https://fangjionghao1.github.io/p/%E9%9A%8F%E6%89%8B%E8%AE%B0/</guid><description>&lt;p>兜兜转转还是会回到起点，有什么不一样了，来时明白，走时更明白。&lt;/p>
+&lt;p>午休看到音乐的 aigc ，用法很简单，只需要音乐风格就能得到一个不错的 beat,随便听了一首 trap,质量真的不错，效果器调教的很适合标签，甚至做了侧链压缩
+想起来之前和学长讨论的，古典和电子的问题，只不过当时主体是初音今天主体换成了 ai
+学长千古哈哈哈哈哈
+0522&lt;/p></description></item><item><title>日语单词</title><link>https://fangjionghao1.github.io/p/%E6%97%A5%E8%AF%AD%E5%8D%95%E8%AF%8D/</link><pubDate>Mon, 22 May 2023 11:01:41 +0800</pubDate><guid>https://fangjionghao1.github.io/p/%E6%97%A5%E8%AF%AD%E5%8D%95%E8%AF%8D/</guid><description>&lt;h3 id="木漏れ日">木漏れ日&lt;/h3>
 &lt;p>罗马音 komorebi
 日 hi 发生连浊变成 bi
 中高型 东京方言 ko 高 more 低高 bi 高
 ko 木
-more 漏^も れ 洩露，穿過 是漏^も れる moreru 的连用型 morata 漏^も れ是过去式&lt;/p></description></item><item><title>随手记</title><link>https://fangjionghao1.github.io/p/%E9%9A%8F%E6%89%8B%E8%AE%B0/</link><pubDate>Mon, 22 May 2023 10:55:24 +0800</pubDate><guid>https://fangjionghao1.github.io/p/%E9%9A%8F%E6%89%8B%E8%AE%B0/</guid><description>&lt;p>兜兜转转还是会回到起点，有什么不一样了，来时明白，走时更明白。&lt;/p></description></item><item><title>excelize 库简介</title><link>https://fangjionghao1.github.io/p/%E5%B7%A5%E5%85%B7/</link><pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/%E5%B7%A5%E5%85%B7/</guid><description>&lt;h4 id="背景">背景&lt;/h4>
+more 漏^も れ 洩露，穿過 是漏^も れる moreru 的连用型 morata 漏^も れ是过去式&lt;/p></description></item><item><title>excelize 库简介</title><link>https://fangjionghao1.github.io/p/%E5%B7%A5%E5%85%B7/</link><pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/%E5%B7%A5%E5%85%B7/</guid><description>&lt;h4 id="背景">背景&lt;/h4>
 &lt;p>从表格导入一些用户数据
 顺手开发了这些工具。
 本文的前提是了解了基本函数的使用方法，因为有中文文档就不再赘述
@@ -1143,7 +1147,12 @@ data-flex-basis="750px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>如果想要更极端的访问者，可以直接使用实例充当访问者，只不过耦合度就高了很多，顺着这个想法下去他就是在这个类型上开了个口子写了装饰器。所以耦合程度从高到低是 装饰&amp;gt;填充实例&amp;gt;访问者&lt;/p></description></item><item><title/><link>https://fangjionghao1.github.io/p/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/</guid><description>&lt;h3 id="问题背景">问题背景&lt;/h3>
+&lt;/div>&lt;p>如果想要更极端的访问者，可以直接使用实例充当访问者，只不过耦合度就高了很多，顺着这个想法下去他就是在这个类型上开了个口子写了装饰器。所以耦合程度从高到低是 装饰&amp;gt;填充实例&amp;gt;访问者&lt;/p></description></item><item><title>在线发布文章</title><link>https://fangjionghao1.github.io/submit/</link><pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/submit/</guid><description>&lt;p>在此页面上，您可以在线发布文章。&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;!-- raw HTML omitted -->内容：&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;!-- raw HTML omitted -->发布文章&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;!-- raw HTML omitted --></description></item><item><title/><link>https://fangjionghao1.github.io/p/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://fangjionghao1.github.io/p/</guid><description>&lt;h3 id="问题背景">问题背景&lt;/h3>
 &lt;p>写测试的时候需要 mock 请求，发现整个流程相当复杂&lt;/p>
 &lt;ul>
 &lt;li>读文件&lt;/li>
