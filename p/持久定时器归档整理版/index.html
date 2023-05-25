@@ -1,0 +1,892 @@
+<style type=text/css>.fireworks{position:fixed;pointer-events:none;top:0;left:0;height:100%}</style><canvas class=fireworks></canvas>
+<script src=/js/anime.min.js></script>
+<script src=/js/fireworks.js></script>
+<script type=text/javascript>fireworks.setCanvasSize()</script><!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="背景 系统中有一些定时任务。部署环境windows2003r,所以不能使用 linux 的 crontab 来做定时任务，另外就是编译成一个一个小工具，每次有新的定时任务"><title>持久定时器（归档整理版）</title><link rel=canonical href=https://fangjionghao1.github.io/p/%E6%8C%81%E4%B9%85%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BD%92%E6%A1%A3%E6%95%B4%E7%90%86%E7%89%88/><link rel=stylesheet href=/scss/style.min.5be32ca3f6e1a997c75795c4359147cc6d4fbd34948c0acd51e31d237033978a.css><meta property="og:title" content="持久定时器（归档整理版）"><meta property="og:description" content="背景 系统中有一些定时任务。部署环境windows2003r,所以不能使用 linux 的 crontab 来做定时任务，另外就是编译成一个一个小工具，每次有新的定时任务"><meta property="og:url" content="https://fangjionghao1.github.io/p/%E6%8C%81%E4%B9%85%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BD%92%E6%A1%A3%E6%95%B4%E7%90%86%E7%89%88/"><meta property="og:site_name" content="HOW个人博客"><meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:published_time" content="2023-05-25T10:29:08+08:00"><meta property="article:modified_time" content="2023-05-25T10:29:08+08:00"><meta name=twitter:title content="持久定时器（归档整理版）"><meta name=twitter:description content="背景 系统中有一些定时任务。部署环境windows2003r,所以不能使用 linux 的 crontab 来做定时任务，另外就是编译成一个一个小工具，每次有新的定时任务"><link rel="shortcut icon" href=/favicon.ico></head><body class=article-page><div id=particles-js></div><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_huc9acfb3577b4b3490d0b3afc926ff6d8_79066_300x0_resize_box_3.png width=300 height=300 class=site-logo loading=lazy alt=Avatar></a>
+<span class=emoji>🐶</span></figure><div class=site-meta><h1 class=site-name><a href=/>HOW个人博客</a></h1><h2 class=site-description>morning</h2></div></header><ol class=social-menu><li><a href=https://github.com/fangjionghao1 target=_blank title=GitHub rel=me><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Anaconda</title><path d="M12.045.033a12.181 12.182.0 00-1.361.078 17.512 17.513.0 011.813 1.433l.48.438-.465.45a15.047 15.048.0 00-1.126 1.205l-.178.215a8.527 8.527.0 01.86-.05A8.154 8.155.0 117.782 18.951a15.764 15.765.0 01-1.841.106h-.86a21.847 21.848.0 00.264 2.866 11.966 11.967.0 106.7-21.89zM8.17.678A12.181 12.182.0 005.546 1.953a15.506 15.507.0 011.813.43A18.551 18.552.0 018.17.678zM9.423.75a16.237 16.238.0 00-.995 1.998 16.15 16.152.0 011.605.66 6.98 6.98.0 01.43-.509c.234-.286.472-.559.716-.817A15.047 15.048.0 009.423.75zM4.68 2.949a14.969 14.97.0 000 2.336c.587-.065 1.196-.1 1.812-.107a16.617 16.617.0 01.48-1.748A16.48 16.481.0 004.68 2.949zM3.62 3.5A11.938 11.938.0 001.762 5.88a17.004 17.004.0 011.877-.444A17.39 17.391.0 013.62 3.5zm4.406.287c-.143.437-.265.888-.38 1.347a8.255 8.255.0 011.67-.803c-.423-.2-.845-.38-1.29-.544zM6.3 6.216a14.051 14.052.0 00-1.555.108c.064.523.157 1.038.272 1.554A8.39 8.391.0 016.3 6.216zm-2.55.137a15.313 15.313.0 00-2.602.716H1.07v.079a17.104 17.105.0 001.267 2.544l.043.071.072-.049a16.309 16.31.0 011.734-1.083l.057-.035V8.54a16.867 16.868.0 01-.408-2.094v-.092zM.644 8.095l-.063.2A11.844 11.845.0 000 11.655v.209l.143-.152a17.706 17.707.0 011.584-1.447l.057-.043-.043-.064A16.18 16.18.0 01.716 8.288zm3.77 1.253-.18.1c-.465.273-.93.573-1.375.889l-.065.05.05.064c.309.437.645.867.996 1.276l.137.165v-.208a8.176 8.176.0 01.364-2.15zM2.2 10.853l-.072.05A16.574 16.574.0 00.315 12.637l-.058.058.066.057a15.449 15.45.0 001.991 1.483l.072.05.043-.08a16.738 16.74.0 011.053-1.64v-.05l-.043-.05a16.99 16.99.0 01-1.19-1.54zm1.855 2.071-.121.172a15.363 15.363.0 00-.917 1.433l-.043.072.071.043a16.61 16.61.0 001.562.766l.193.086-.086-.193a8.04 8.04.0 01-.66-2.172zm-3.976.48v.2a11.758 11.759.0 00.946 3.326l.078.186.072-.194a16.215 16.216.0 01.845-2l.057-.063-.064-.043a17.197 17.198.0 01-1.776-1.284zm2.543 1.805-.035.08a15.764 15.765.0 00-.983 2.479v.08h.086a16.15 16.152.0 002.688.5l.072.007v-.086a17.562 17.563.0 01.164-2.056v-.065H4.55a16.266 16.266.0 01-1.849-.896zm2.544 1.169v.114a17.254 17.255.0 00-.151 1.828v.078h.931c.287.0.624.014.946.0h.209l-.166-.129a8.011 8.011.0 01-1.64-1.834zm-3.29 2.1.115.172a11.988 11.988.0 002.502 2.737l.157.129v-.201a22.578 22.58.0 01-.2-2.336v-.071h-.072a16.23 16.23.0 01-2.3-.387z"/></svg><span>主页</span></a></li><li><a href=/%E4%B8%AA%E4%BA%BA%E7%AE%80%E4%BB%8B/><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.52 19c.64-2.2 1.84-3 3.22-3h6.52c1.38.0 2.58.8 3.22 3"/><circle cx="12" cy="10" r="3"/><circle cx="12" cy="12" r="10"/></svg><span>个人简介</span></a></li><li><a href=/%E6%96%87%E7%AB%A0%E5%BD%92%E6%A1%A3/><!doctype html><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="63.971" height="64.033" viewBox="0 0 63.971 64.033" style="enable-background:new 0 0 63.971 64.033"><g id="Nib"><g><path style="fill-rule:evenodd;clip-rule:evenodd;fill:#999" d="M26 28.033l-14 1.999-12 32L16.373 45.66c-.225-.5-.357-1.05-.357-1.633.0-2.203 1.786-3.989 3.99-3.989 2.203.0 3.989 1.786 3.989 3.989s-1.787 3.989-3.989 3.989c-.583.0-1.133-.132-1.633-.356L2 64.033l32-12 2-14.001-10-9.999z"/></g></g><g id="Ring"><g><rect x="30.172" y="21.133" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -12.2785 32.421)" style="fill:#333" width="5.656" height="19.8"/></g></g><g id="Barrel"><g><path style="fill:#666" d="M63.384 17.585 46.385.587c-.782-.782-2.051-.782-2.833.0L26.553 19.585c-.782.782-.782 2.05.0 2.833l14.999 14.998c.782.783 2.051.783 2.833.0l18.999-16.998C64.166 19.635 64.166 18.367 63.384 17.585z"/></g></g><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/></svg><span>归档</span></a></li><li><a href=/links/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg><span>Links</span></a></li><li><a href=/search/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg><span>关键字搜索</span></a></li><div class=menu-bottom-section><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg><span>暗色模式</span></li></div></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><ol><li><a href=#背景>背景</a></li><li><a href=#思路>思路</a></li><li><a href=#代码示例>代码示例</a><ol><li><a href=#持久层计时器>持久层计时器</a></li><li><a href=#内存计时器>内存计时器</a></li></ol></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/go/ style=background-color:#2a9d8f;color:#fff>go</a>
+<a href=/categories/%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91/>工具开发</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/%E6%8C%81%E4%B9%85%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BD%92%E6%A1%A3%E6%95%B4%E7%90%86%E7%89%88/>持久定时器（归档整理版）</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg><time class=article-time--published>May 25, 2023</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><time class=article-time--reading>阅读时长: 7 分钟</time></div></footer></div></header><section class=article-content><h3 id=背景>背景</h3><blockquote><p>系统中有一些定时任务。部署环境<code>windows2003r</code>,所以不能使用 <code>linux</code> 的 crontab 来做定时任务，另外就是编译成一个一个小工具，每次有新的定时任务就要做一个新的小工具。而且代码全封装，像是一个个 dll,如果有问题不好调试。
+为此考虑制作一个定时任务调度的小系统。</p></blockquote><h3 id=思路>思路</h3><p>需要做的功能从底下到上层分别有</p><ul><li><p>最下层-内存计时器:
+这个功能的核心，就是一个计时器，和传统概念里的定时器没有区别，设置<em>开始时间</em>，<em>间隔时间</em>，<em>注册回调</em>，让函数在<em>开始时间</em>经过指定<em>间隔</em>时间之后执行<em>回调函数</em></p></li><li><p>第二层-赋予数据持久能力：</p><ul><li>目的：加入服务器异常中断，定时任务就会被打乱。
+因为内存只有<em>系统启动的时间</em>这个信息，定时任务重要的是<em>开始时间</em>，这影响了<em>下一次执行时间</em></li><li>做法：持久内存中的任务，包括<ul><li>任务的名称（关键字）：用于和回调绑定</li><li>任务的开始时间</li><li>下一次触发时间</li><li>间隔时间</li><li>是否重复（可选）</li><li>回调数据（可选）：为了赋予回调函数更强的能力，记录回调函数需要用到的参数，就像一次 rpc 调用一样，只不过这次发起方是系统，响应在未来，返回到现在。</li><li>超期日期（可选）：过了指定时间就废弃这个定时器，定时器扫描的时候跳过 也会删除相应的记录</li></ul></li></ul><p>参考用的表结构</p></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=k>CREATE</span><span class=w> </span><span class=k>TABLE</span><span class=w> </span><span class=o>`</span><span class=n>timer_stores</span><span class=o>`</span><span class=w> </span><span class=p>(</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=o>`</span><span class=n>id</span><span class=o>`</span><span class=w> </span><span class=nb>bigint</span><span class=p>(</span><span class=mi>20</span><span class=p>)</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=n>AUTO_INCREMENT</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=o>`</span><span class=n>fire_time</span><span class=o>`</span><span class=w> </span><span class=n>datetime</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=o>`</span><span class=nb>interval</span><span class=o>`</span><span class=w> </span><span class=nb>varchar</span><span class=p>(</span><span class=mi>15</span><span class=p>)</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=o>`</span><span class=k>key</span><span class=o>`</span><span class=w> </span><span class=nb>varchar</span><span class=p>(</span><span class=mi>30</span><span class=p>)</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=k>NULL</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=o>`</span><span class=n>repeat</span><span class=o>`</span><span class=w> </span><span class=n>tinyint</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=k>NULL</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=o>`</span><span class=k>data</span><span class=o>`</span><span class=w> </span><span class=n>longtext</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=o>`</span><span class=n>belong_user</span><span class=o>`</span><span class=w> </span><span class=nb>bigint</span><span class=p>(</span><span class=mi>20</span><span class=p>)</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=k>NULL</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=o>`</span><span class=n>expire</span><span class=o>`</span><span class=w> </span><span class=nb>bigint</span><span class=p>(</span><span class=mi>20</span><span class=p>)</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=k>NULL</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>PRIMARY</span><span class=w> </span><span class=k>KEY</span><span class=w> </span><span class=p>(</span><span class=o>`</span><span class=n>id</span><span class=o>`</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>)</span><span class=w> </span><span class=n>ENGINE</span><span class=o>=</span><span class=n>InnoDB</span><span class=w> </span><span class=n>AUTO_INCREMENT</span><span class=o>=</span><span class=mi>86</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=n>CHARSET</span><span class=o>=</span><span class=n>utf8mb4</span><span class=w> </span><span class=k>COLLATE</span><span class=o>=</span><span class=n>utf8mb4_0900_ai_ci</span><span class=p>;</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><ul><li><p>第三层 可以理解成应用层</p><ul><li>注册大量的回调函数去和关键字绑定，当需要某种功能的时候就可以根据关键字赋予定时器指定的功能</li><li>扩展：<ul><li>设置启停的关键字，可以跳过某些定时器</li></ul></li></ul><p>这个是应用的基本结构，那么代码的逻辑就很清晰了，简单提几个状态描述一下后面直接上代码</p><ol><li>服务启动状态：这个状态要做的有<ol><li>持久层获取定时器的数据信息</li><li>注册回调信息</li><li>启动内存定时器（一定要先注册回调才能启动内存定时器，但是内存定时器和持久谁先谁后无所谓）</li></ol></li><li>定时器触发阶段，根据 ID 更新下一次触发时间</li></ol></li></ul><h3 id=代码示例>代码示例</h3><h4 id=持久层计时器>持久层计时器</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// TimerStore @Description: 计时器存储实体
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>type</span> <span class=nx>TimerStore</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Id</span>         <span class=kt>uint64</span>         <span class=s>`gorm:&#34;type:bigint(20) AUTO_INCREMENT;not null;primaryKey;column:id&#34; json:&#34;id,omitempty&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>FireTime</span>   <span class=nx>db</span><span class=p>.</span><span class=nx>MpsTime</span>     <span class=s>`gorm:&#34;column:fire_time;type:time&#34; json:&#34;fireTime&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Interval</span>   <span class=nx>db</span><span class=p>.</span><span class=nx>MpsDuration</span> <span class=s>`gorm:&#34;column:interval;type:varchar(30)&#34; json:&#34;interval,omitempty&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Key</span>        <span class=kt>string</span>         <span class=s>`gorm:&#34;column:key;type:varchar(15)&#34; json:&#34;key,omitempty&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Repeat</span>     <span class=kt>bool</span>           <span class=s>`gorm:&#34;column:repeat;type&#34; json:&#34;repeat,omitempty&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Data</span>       <span class=kt>string</span>         <span class=s>`gorm:&#34;column:data;type:varchar(255)&#34; json:&#34;data,omitempty&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>BelongUser</span> <span class=o>*</span><span class=kt>int</span>           <span class=s>`gorm:&#34;column:belong_user;type:bigint(20)&#34; json:&#34;belongUser,omitempty&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// UpdateTimerInDb2NextFireTimeCallBack  change timer fire time
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>UpdateTimerInDb2NextFireTimeCallBack</span><span class=p>(</span><span class=nx>store</span> <span class=nx>TimerStore</span><span class=p>)</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>data</span><span class=p>,</span> <span class=nx>id</span><span class=p>,</span> <span class=nx>key</span><span class=p>,</span> <span class=nx>repeat</span><span class=p>,</span> <span class=nx>interval</span> <span class=o>:=</span> <span class=nx>store</span><span class=p>.</span><span class=nx>Data</span><span class=p>,</span> <span class=nx>store</span><span class=p>.</span><span class=nx>Id</span><span class=p>,</span> <span class=nx>store</span><span class=p>.</span><span class=nx>Key</span><span class=p>,</span> <span class=nx>store</span><span class=p>.</span><span class=nx>Repeat</span><span class=p>,</span> <span class=nx>store</span><span class=p>.</span><span class=nx>Interval</span> <span class=c1>//  为了让回调需要的变量都限制在该函数内
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>return</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>tx</span> <span class=o>:=</span> <span class=nx>db</span><span class=p>.</span><span class=nx>DB</span><span class=p>.</span><span class=nf>Model</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>TimerStore</span><span class=p>{}).</span><span class=nf>Where</span><span class=p>(</span><span class=s>&#34;id = ?&#34;</span><span class=p>,</span> <span class=nx>id</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>defer</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span> <span class=p>!</span><span class=nx>repeat</span> <span class=o>&amp;&amp;</span> <span class=nx>id</span> <span class=o>!=</span> <span class=mi>0</span> <span class=p>{</span> <span class=c1>//  表示在数据库中有数据
+</span></span></span><span class=line><span class=cl><span class=c1></span>				<span class=nx>tx</span><span class=p>.</span><span class=nf>Delete</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>TimerStore</span><span class=p>{})</span> <span class=c1>//如果不重复就删除相关的定时器
+</span></span></span><span class=line><span class=cl><span class=c1></span>			<span class=p>}</span> <span class=k>else</span> <span class=k>if</span> <span class=nx>id</span> <span class=o>!=</span> <span class=mi>0</span> <span class=p>{</span> <span class=c1>//  repeat
+</span></span></span><span class=line><span class=cl><span class=c1></span>				<span class=k>if</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>tx</span><span class=p>.</span><span class=nf>UpdateColumn</span><span class=p>(</span><span class=s>&#34;fire_time&#34;</span><span class=p>,</span> <span class=nx>time</span><span class=p>.</span><span class=nf>Now</span><span class=p>().</span><span class=nf>Add</span><span class=p>(</span><span class=nx>time</span><span class=p>.</span><span class=nf>Duration</span><span class=p>(</span><span class=nx>interval</span><span class=p>))).</span><span class=nx>Error</span><span class=p>;</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=nx>logger</span><span class=p>.</span><span class=nx>Log</span><span class=p>.</span><span class=nf>Errorf</span><span class=p>(</span><span class=s>&#34;update fire time in db error %v&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=p>}()</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>f</span> <span class=o>:=</span> <span class=nx>callBack</span><span class=p>.</span><span class=nf>GetFunc</span><span class=p>(</span><span class=nx>key</span><span class=p>);</span> <span class=nx>f</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span> <span class=c1>//  获取回调 如果没有就不执行 如果开关没有开启则获得一个假回调
+</span></span></span><span class=line><span class=cl><span class=c1></span>			<span class=k>if</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>callBack</span><span class=p>.</span><span class=nf>GetFunc</span><span class=p>(</span><span class=nx>key</span><span class=p>)(</span><span class=nx>data</span><span class=p>);</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=nx>logger</span><span class=p>.</span><span class=nx>Log</span><span class=p>.</span><span class=nf>Errorf</span><span class=p>(</span><span class=s>&#34;timer call back func error %v&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=k>return</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// AddTimer  添加计时器 处理数据库数据和堆数据
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>AddTimer</span><span class=p>(</span><span class=nx>t</span> <span class=o>...</span><span class=nx>TimerStore</span><span class=p>)</span> <span class=kt>error</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//  对加入的计时器进行判定 业务计时器和恢复计时器分开处理
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>for</span> <span class=nx>idx</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>t</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>timerStore</span> <span class=o>:=</span> <span class=nx>t</span><span class=p>[</span><span class=nx>idx</span><span class=p>]</span> <span class=c1>//  防止下面使用定时器中的指针
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>duration</span> <span class=o>:=</span> <span class=nx>time</span><span class=p>.</span><span class=nf>Duration</span><span class=p>(</span><span class=nx>timerStore</span><span class=p>.</span><span class=nx>Interval</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>duration</span> <span class=o>==</span> <span class=mi>0</span> <span class=o>&amp;&amp;</span> <span class=nx>timerStore</span><span class=p>.</span><span class=nx>Repeat</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;no repeat task need interval&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>timerStore</span><span class=p>.</span><span class=nx>FireTime</span><span class=p>.</span><span class=nf>IsZero</span><span class=p>()</span> <span class=p>{</span> <span class=c1>//  如果开始时间为空则对开始时间赋予一个初值
+</span></span></span><span class=line><span class=cl><span class=c1></span>			<span class=nx>timerStore</span><span class=p>.</span><span class=nx>FireTime</span><span class=p>.</span><span class=nx>Time</span> <span class=p>=</span> <span class=nx>time</span><span class=p>.</span><span class=nf>Now</span><span class=p>().</span><span class=nf>Add</span><span class=p>(</span><span class=nx>duration</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=k>switch</span> <span class=kc>true</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>case</span> <span class=nx>t</span><span class=p>[</span><span class=nx>idx</span><span class=p>].</span><span class=nx>Id</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>:</span> <span class=c1>//  表示在数据库之中
+</span></span></span><span class=line><span class=cl><span class=c1></span>			<span class=k>if</span> <span class=nx>timerStore</span><span class=p>.</span><span class=nx>FireTime</span><span class=p>.</span><span class=nf>Before</span><span class=p>(</span><span class=nx>time</span><span class=p>.</span><span class=nf>Now</span><span class=p>())</span> <span class=p>{</span> <span class=c1>//  处理时间问题
+</span></span></span><span class=line><span class=cl><span class=c1></span>				<span class=k>if</span> <span class=nx>duration</span> <span class=o>!=</span> <span class=mi>0</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=nx>timerStore</span><span class=p>.</span><span class=nx>FireTime</span><span class=p>.</span><span class=nx>Time</span> <span class=p>=</span> <span class=nx>time</span><span class=p>.</span><span class=nf>Now</span><span class=p>().</span><span class=nf>Add</span><span class=p>(</span><span class=nx>timerStore</span><span class=p>.</span><span class=nx>FireTime</span><span class=p>.</span><span class=nf>Sub</span><span class=p>(</span><span class=nx>time</span><span class=p>.</span><span class=nf>Now</span><span class=p>())</span> <span class=o>%</span> <span class=nx>duration</span><span class=p>).</span><span class=nf>Add</span><span class=p>(</span><span class=nx>duration</span><span class=p>)</span> <span class=c1>//  更新数据库
+</span></span></span><span class=line><span class=cl><span class=c1></span>				<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=nx>timerStore</span><span class=p>.</span><span class=nx>FireTime</span><span class=p>.</span><span class=nx>Time</span> <span class=p>=</span> <span class=nx>time</span><span class=p>.</span><span class=nf>Now</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>				<span class=p>}</span>
+</span></span><span class=line><span class=cl>				<span class=k>if</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>db</span><span class=p>.</span><span class=nx>DB</span><span class=p>.</span><span class=nf>Model</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>timerStore</span><span class=p>).</span><span class=nf>Where</span><span class=p>(</span><span class=s>&#34;id = ?&#34;</span><span class=p>,</span> <span class=nx>timerStore</span><span class=p>.</span><span class=nx>Id</span><span class=p>).</span><span class=nf>Update</span><span class=p>(</span><span class=s>&#34;fire_time&#34;</span><span class=p>,</span> <span class=nx>timerStore</span><span class=p>.</span><span class=nx>FireTime</span><span class=p>).</span><span class=nx>Error</span><span class=p>;</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=k>return</span> <span class=nx>err</span>
+</span></span><span class=line><span class=cl>				<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span> <span class=c1>//  不早于当前不做相应处理
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=k>default</span><span class=p>:</span> <span class=c1>//  表示不在数据库之中
+</span></span></span><span class=line><span class=cl><span class=c1></span>			<span class=k>if</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>db</span><span class=p>.</span><span class=nx>DB</span><span class=p>.</span><span class=nf>Model</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>timerStore</span><span class=p>).</span><span class=nf>Create</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>timerStore</span><span class=p>).</span><span class=nx>Error</span><span class=p>;</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span> <span class=c1>//  没在数据库中就添加数据库获取id 不管时间短不短
+</span></span></span><span class=line><span class=cl><span class=c1></span>				<span class=k>return</span> <span class=nx>err</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=nx>timerHeap</span><span class=p>.</span><span class=nx>H</span><span class=p>.</span><span class=nf>AddTimers</span><span class=p>(</span><span class=nx>timerHeap</span><span class=p>.</span><span class=nx>Timer</span><span class=p>{</span><span class=nx>ID</span><span class=p>:</span> <span class=nx>timerStore</span><span class=p>.</span><span class=nx>Id</span><span class=p>,</span> <span class=nx>FireTime</span><span class=p>:</span> <span class=nx>timerStore</span><span class=p>.</span><span class=nx>FireTime</span><span class=p>.</span><span class=nx>Time</span><span class=p>,</span> <span class=nx>Repeat</span><span class=p>:</span> <span class=nx>timerStore</span><span class=p>.</span><span class=nx>Repeat</span><span class=p>,</span> <span class=nx>Interval</span><span class=p>:</span> <span class=nx>duration</span><span class=p>,</span> <span class=nx>Tag</span><span class=p>:</span> <span class=nx>timerStore</span><span class=p>.</span><span class=nx>Key</span><span class=p>},</span> <span class=nf>UpdateTimerInDb2NextFireTimeCallBack</span><span class=p>(</span><span class=nx>timerStore</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=kc>nil</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// InitTh 初始化定时堆
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>InitTh</span><span class=p>(</span><span class=nx>d</span> <span class=nx>time</span><span class=p>.</span><span class=nx>Duration</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>res</span> <span class=p>[]</span><span class=nx>TimerStore</span>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=o>:=</span> <span class=nx>db</span><span class=p>.</span><span class=nx>DB</span><span class=p>.</span><span class=nf>Model</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>TimerStore</span><span class=p>{}).</span><span class=nf>Find</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>res</span><span class=p>).</span><span class=nx>Error</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>logger</span><span class=p>.</span><span class=nx>Log</span><span class=p>.</span><span class=nf>Errorf</span><span class=p>(</span><span class=s>&#34;rerieve timer store error %v&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=p>=</span> <span class=nf>AddTimer</span><span class=p>(</span><span class=nx>res</span><span class=o>...</span><span class=p>);</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>logger</span><span class=p>.</span><span class=nx>Log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>timerHeap</span><span class=p>.</span><span class=nx>H</span><span class=p>.</span><span class=nf>StartTicks</span><span class=p>(</span><span class=nx>d</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// RemoveTimerStore 移除掉计时器 为了方式只删除内存或者数据库某一边的计时器 建议使用这个方式删除
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>RemoveTimerStore</span><span class=p>(</span><span class=nx>id</span> <span class=kt>uint64</span><span class=p>)</span> <span class=kt>error</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=o>:=</span> <span class=nx>db</span><span class=p>.</span><span class=nx>DB</span><span class=p>.</span><span class=nf>Model</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>TimerStore</span><span class=p>{}).</span><span class=nf>Where</span><span class=p>(</span><span class=s>&#34;id = ?&#34;</span><span class=p>,</span> <span class=nx>id</span><span class=p>).</span><span class=nf>Delete</span><span class=p>(</span><span class=nx>TimerStore</span><span class=p>{}).</span><span class=nx>Error</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=nx>err</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>timerHeap</span><span class=p>.</span><span class=nx>H</span><span class=p>.</span><span class=nf>Remove</span><span class=p>(</span><span class=nx>id</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=kc>nil</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=内存计时器>内存计时器</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span><span class=lnt>178
+</span><span class=lnt>179
+</span><span class=lnt>180
+</span><span class=lnt>181
+</span><span class=lnt>182
+</span><span class=lnt>183
+</span><span class=lnt>184
+</span><span class=lnt>185
+</span><span class=lnt>186
+</span><span class=lnt>187
+</span><span class=lnt>188
+</span><span class=lnt>189
+</span><span class=lnt>190
+</span><span class=lnt>191
+</span><span class=lnt>192
+</span><span class=lnt>193
+</span><span class=lnt>194
+</span><span class=lnt>195
+</span><span class=lnt>196
+</span><span class=lnt>197
+</span><span class=lnt>198
+</span><span class=lnt>199
+</span><span class=lnt>200
+</span><span class=lnt>201
+</span><span class=lnt>202
+</span><span class=lnt>203
+</span><span class=lnt>204
+</span><span class=lnt>205
+</span><span class=lnt>206
+</span><span class=lnt>207
+</span><span class=lnt>208
+</span><span class=lnt>209
+</span><span class=lnt>210
+</span><span class=lnt>211
+</span><span class=lnt>212
+</span><span class=lnt>213
+</span><span class=lnt>214
+</span><span class=lnt>215
+</span><span class=lnt>216
+</span><span class=lnt>217
+</span><span class=lnt>218
+</span><span class=lnt>219
+</span><span class=lnt>220
+</span><span class=lnt>221
+</span><span class=lnt>222
+</span><span class=lnt>223
+</span><span class=lnt>224
+</span><span class=lnt>225
+</span><span class=lnt>226
+</span><span class=lnt>227
+</span><span class=lnt>228
+</span><span class=lnt>229
+</span><span class=lnt>230
+</span><span class=lnt>231
+</span><span class=lnt>232
+</span><span class=lnt>233
+</span><span class=lnt>234
+</span><span class=lnt>235
+</span><span class=lnt>236
+</span><span class=lnt>237
+</span><span class=lnt>238
+</span><span class=lnt>239
+</span><span class=lnt>240
+</span><span class=lnt>241
+</span><span class=lnt>242
+</span><span class=lnt>243
+</span><span class=lnt>244
+</span><span class=lnt>245
+</span><span class=lnt>246
+</span><span class=lnt>247
+</span><span class=lnt>248
+</span><span class=lnt>249
+</span><span class=lnt>250
+</span><span class=lnt>251
+</span><span class=lnt>252
+</span><span class=lnt>253
+</span><span class=lnt>254
+</span><span class=lnt>255
+</span><span class=lnt>256
+</span><span class=lnt>257
+</span><span class=lnt>258
+</span><span class=lnt>259
+</span><span class=lnt>260
+</span><span class=lnt>261
+</span><span class=lnt>262
+</span><span class=lnt>263
+</span><span class=lnt>264
+</span><span class=lnt>265
+</span><span class=lnt>266
+</span><span class=lnt>267
+</span><span class=lnt>268
+</span><span class=lnt>269
+</span><span class=lnt>270
+</span><span class=lnt>271
+</span><span class=lnt>272
+</span><span class=lnt>273
+</span><span class=lnt>274
+</span><span class=lnt>275
+</span><span class=lnt>276
+</span><span class=lnt>277
+</span><span class=lnt>278
+</span><span class=lnt>279
+</span><span class=lnt>280
+</span><span class=lnt>281
+</span><span class=lnt>282
+</span><span class=lnt>283
+</span><span class=lnt>284
+</span><span class=lnt>285
+</span><span class=lnt>286
+</span><span class=lnt>287
+</span><span class=lnt>288
+</span><span class=lnt>289
+</span><span class=lnt>290
+</span><span class=lnt>291
+</span><span class=lnt>292
+</span><span class=lnt>293
+</span><span class=lnt>294
+</span><span class=lnt>295
+</span><span class=lnt>296
+</span><span class=lnt>297
+</span><span class=lnt>298
+</span><span class=lnt>299
+</span><span class=lnt>300
+</span><span class=lnt>301
+</span><span class=lnt>302
+</span><span class=lnt>303
+</span><span class=lnt>304
+</span><span class=lnt>305
+</span><span class=lnt>306
+</span><span class=lnt>307
+</span><span class=lnt>308
+</span><span class=lnt>309
+</span><span class=lnt>310
+</span><span class=lnt>311
+</span><span class=lnt>312
+</span><span class=lnt>313
+</span><span class=lnt>314
+</span><span class=lnt>315
+</span><span class=lnt>316
+</span><span class=lnt>317
+</span><span class=lnt>318
+</span><span class=lnt>319
+</span><span class=lnt>320
+</span><span class=lnt>321
+</span><span class=lnt>322
+</span><span class=lnt>323
+</span><span class=lnt>324
+</span><span class=lnt>325
+</span><span class=lnt>326
+</span><span class=lnt>327
+</span><span class=lnt>328
+</span><span class=lnt>329
+</span><span class=lnt>330
+</span><span class=lnt>331
+</span><span class=lnt>332
+</span><span class=lnt>333
+</span><span class=lnt>334
+</span><span class=lnt>335
+</span><span class=lnt>336
+</span><span class=lnt>337
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>timerHeap</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;container/heap&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;mps/common/db&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;mps/logger&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;runtime&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;sync&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;time&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>H</span> <span class=p>=</span> <span class=nf>NewTimerHeap</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>const</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=nx>MinTimerInterval</span> <span class=p>=</span> <span class=mi>10</span> <span class=o>*</span> <span class=nx>time</span><span class=p>.</span><span class=nx>Millisecond</span> <span class=c1>// 循环定时器的最小时间间隔
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=kd>const</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=nx>defaultMode</span> <span class=kt>uint8</span> <span class=p>=</span> <span class=kc>iota</span>
+</span></span><span class=line><span class=cl>	<span class=nx>goroutineMode</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>ListTimer</span><span class=p>()</span> <span class=p>(</span><span class=nx>res</span> <span class=p>[]</span><span class=nx>Timer</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>th</span><span class=p>.</span><span class=nx>lock</span><span class=p>.</span><span class=nf>Lock</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nx>th</span><span class=p>.</span><span class=nx>lock</span><span class=p>.</span><span class=nf>Unlock</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>timer</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>res</span> <span class=p>=</span> <span class=nb>append</span><span class=p>(</span><span class=nx>res</span><span class=p>,</span> <span class=o>*</span><span class=nx>timer</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>res</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// CallbackFunc 定时器回调函数的类型定义
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>type</span> <span class=nx>CallbackFunc</span> <span class=kd>func</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Timer 定时器对象
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>type</span> <span class=nx>Timer</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>ID</span>        <span class=kt>uint64</span>        <span class=c1>// 外部Id (唯一, 用于更新和移除指定的定时器)
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>FireTime</span>  <span class=nx>time</span><span class=p>.</span><span class=nx>Time</span>     <span class=c1>// 触发时间
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>Interval</span>  <span class=nx>time</span><span class=p>.</span><span class=nx>Duration</span> <span class=c1>// 时间间隔（用于循环定时器）
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>Tag</span>       <span class=kt>string</span>        <span class=c1>// 用于携带必要的外部信息，扩展使用，仅作为信息属性
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>callback</span>  <span class=nx>CallbackFunc</span>  <span class=c1>// 回调函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>Repeat</span>    <span class=kt>bool</span>          <span class=c1>// 是否循环
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>cancelled</span> <span class=kt>bool</span>          <span class=c1>// 是否已经取消
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>addSeq</span>    <span class=kt>uint</span>          <span class=c1>// 序号,自增
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Cancel 取消一个定时器，这个定时器将不会被触发
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>t</span> <span class=o>*</span><span class=nx>Timer</span><span class=p>)</span> <span class=nf>Cancel</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>.</span><span class=nx>cancelled</span> <span class=p>=</span> <span class=kc>true</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// IsActive 判断定时器是否已经取消
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>t</span> <span class=o>*</span><span class=nx>Timer</span><span class=p>)</span> <span class=nf>IsActive</span><span class=p>()</span> <span class=kt>bool</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=p>!</span><span class=nx>t</span><span class=p>.</span><span class=nx>cancelled</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>TimeFmt</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>T</span>  <span class=nx>db</span><span class=p>.</span><span class=nx>MpsTime</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Id</span> <span class=kt>uint64</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// TimerHeap 使用一个heap管理所有的定时器
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>type</span> <span class=nx>TimerHeap</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>timers</span> <span class=p>[]</span><span class=o>*</span><span class=nx>Timer</span>
+</span></span><span class=line><span class=cl>	<span class=nx>hooks</span>  <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>][]</span><span class=kd>func</span><span class=p>(</span><span class=nx>timer</span> <span class=o>*</span><span class=nx>Timer</span><span class=p>)</span> <span class=c1>//  hooks
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>//  @Description: 一组回调  对每一个pop出来的计时器进行一些操作
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>openHook</span> <span class=kt>bool</span> <span class=c1>//  openHook
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>//  @Description: 钩子开关
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>nextAddSeq</span> <span class=kt>uint</span>
+</span></span><span class=line><span class=cl>	<span class=nx>poolSize</span>   <span class=kt>int</span>
+</span></span><span class=line><span class=cl>	<span class=nx>expire</span>     <span class=nx>time</span><span class=p>.</span><span class=nx>Duration</span>
+</span></span><span class=line><span class=cl>	<span class=nx>invokeMode</span> <span class=kt>uint8</span>
+</span></span><span class=line><span class=cl>	<span class=nx>stop</span>       <span class=kt>bool</span>
+</span></span><span class=line><span class=cl>	<span class=nx>lock</span>       <span class=nx>sync</span><span class=p>.</span><span class=nx>Mutex</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Len 堆排序接口实现
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>Len</span><span class=p>()</span> <span class=kt>int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nb>len</span><span class=p>(</span><span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>Less</span><span class=p>(</span><span class=nx>i</span><span class=p>,</span> <span class=nx>j</span> <span class=kt>int</span><span class=p>)</span> <span class=kt>bool</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>FireTime</span><span class=p>.</span><span class=nf>Before</span><span class=p>(</span><span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=nx>j</span><span class=p>].</span><span class=nx>FireTime</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=kc>true</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>FireTime</span><span class=p>.</span><span class=nf>After</span><span class=p>(</span><span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=nx>j</span><span class=p>].</span><span class=nx>FireTime</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 两个timer的触发时间一致时，按其入堆的顺序
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>return</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>ID</span> <span class=p>&lt;</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=nx>j</span><span class=p>].</span><span class=nx>ID</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>Swap</span><span class=p>(</span><span class=nx>i</span><span class=p>,</span> <span class=nx>j</span> <span class=kt>int</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=nx>i</span><span class=p>],</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=nx>j</span><span class=p>]</span> <span class=p>=</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=nx>j</span><span class=p>],</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=nx>i</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>Push</span><span class=p>(</span><span class=nx>x</span> <span class=kd>interface</span><span class=p>{})</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>th</span><span class=p>.</span><span class=nx>timers</span> <span class=p>=</span> <span class=nb>append</span><span class=p>(</span><span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>,</span> <span class=nx>x</span><span class=p>.(</span><span class=o>*</span><span class=nx>Timer</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>Pop</span><span class=p>()</span> <span class=p>(</span><span class=nx>ret</span> <span class=kd>interface</span><span class=p>{})</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>l</span> <span class=o>:=</span> <span class=nb>len</span><span class=p>(</span><span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>,</span> <span class=nx>ret</span> <span class=p>=</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[:</span><span class=nx>l</span><span class=o>-</span><span class=mi>1</span><span class=p>],</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=nx>l</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Update 修改指定的id的Timer的触发时间
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>Update</span><span class=p>(</span><span class=nx>id</span> <span class=kt>uint64</span><span class=p>,</span> <span class=nx>nt</span> <span class=nx>time</span><span class=p>.</span><span class=nx>Time</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>th</span><span class=p>.</span><span class=nx>lock</span><span class=p>.</span><span class=nf>Lock</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nx>th</span><span class=p>.</span><span class=nx>lock</span><span class=p>.</span><span class=nf>Unlock</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=nx>k</span><span class=p>,</span> <span class=nx>v</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>v</span><span class=p>.</span><span class=nx>ID</span> <span class=o>==</span> <span class=nx>id</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>v</span><span class=p>.</span><span class=nx>FireTime</span> <span class=p>=</span> <span class=nx>nt</span>
+</span></span><span class=line><span class=cl>			<span class=nx>heap</span><span class=p>.</span><span class=nf>Fix</span><span class=p>(</span><span class=nx>th</span><span class=p>,</span> <span class=nx>k</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=k>break</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Remove 删除指定的id的Timer
+</span></span></span><span class=line><span class=cl><span class=c1>// tips: 无绑定index filed, 在for循环中不能使用heap.Remove()来删除指定项；因为heap.Remove的过程中有一次移动至末尾，for可能再次匹配到
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>Remove</span><span class=p>(</span><span class=nx>id</span> <span class=kt>uint64</span><span class=p>)</span> <span class=kt>int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>th</span><span class=p>.</span><span class=nx>lock</span><span class=p>.</span><span class=nf>Lock</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nx>th</span><span class=p>.</span><span class=nx>lock</span><span class=p>.</span><span class=nf>Unlock</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>n</span> <span class=o>:=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=nx>k</span><span class=p>,</span> <span class=nx>v</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>v</span><span class=p>.</span><span class=nx>ID</span> <span class=o>==</span> <span class=nx>id</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>th</span><span class=p>.</span><span class=nx>timers</span> <span class=p>=</span> <span class=nb>append</span><span class=p>(</span><span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[:</span><span class=nx>k</span><span class=p>],</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=nx>k</span><span class=o>+</span><span class=mi>1</span><span class=p>:]</span><span class=o>...</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=nx>n</span><span class=o>++</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>heap</span><span class=p>.</span><span class=nf>Init</span><span class=p>(</span><span class=nx>th</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>n</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Peek 查看某个指定id的Timer
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>Peek</span><span class=p>(</span><span class=nx>id</span> <span class=kt>uint64</span><span class=p>)</span> <span class=o>*</span><span class=nx>Timer</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>v</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>v</span><span class=p>.</span><span class=nx>ID</span> <span class=o>==</span> <span class=nx>id</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=nx>v</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=kc>nil</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// GetTimersWithTag 读取指定tag的timers，不包含cancelled为true的timer
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>GetTimersWithTag</span><span class=p>(</span><span class=nx>tag</span> <span class=kt>string</span><span class=p>)</span> <span class=p>[]</span><span class=o>*</span><span class=nx>Timer</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>ret</span> <span class=p>[]</span><span class=o>*</span><span class=nx>Timer</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>v</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>v</span><span class=p>.</span><span class=nx>Tag</span> <span class=o>==</span> <span class=nx>tag</span> <span class=o>&amp;&amp;</span> <span class=nx>v</span><span class=p>.</span><span class=nx>cancelled</span> <span class=o>==</span> <span class=kc>false</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>ret</span> <span class=p>=</span> <span class=nb>append</span><span class=p>(</span><span class=nx>ret</span><span class=p>,</span> <span class=nx>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>ret</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// NewTimerHeap 新建一个小顶堆定时器
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>NewTimerHeap</span><span class=p>()</span> <span class=o>*</span><span class=nx>TimerHeap</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>timerHeap</span> <span class=nx>TimerHeap</span>
+</span></span><span class=line><span class=cl>	<span class=nx>heap</span><span class=p>.</span><span class=nf>Init</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>timerHeap</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>timerHeap</span><span class=p>.</span><span class=nx>nextAddSeq</span> <span class=p>=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>	<span class=nx>timerHeap</span><span class=p>.</span><span class=nx>invokeMode</span> <span class=p>=</span> <span class=nx>defaultMode</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=o>&amp;</span><span class=nx>timerHeap</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// NewTimerHeapWithGoroutine 新建一个小顶堆定时器, 每个callback独立使用协程运行
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>NewTimerHeapWithGoroutine</span><span class=p>()</span> <span class=o>*</span><span class=nx>TimerHeap</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>timerHeap</span> <span class=nx>TimerHeap</span>
+</span></span><span class=line><span class=cl>	<span class=nx>heap</span><span class=p>.</span><span class=nf>Init</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>timerHeap</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>timerHeap</span><span class=p>.</span><span class=nx>nextAddSeq</span> <span class=p>=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>	<span class=nx>timerHeap</span><span class=p>.</span><span class=nx>invokeMode</span> <span class=p>=</span> <span class=nx>goroutineMode</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=o>&amp;</span><span class=nx>timerHeap</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>AddTimers</span><span class=p>(</span><span class=nx>timer</span> <span class=nx>Timer</span><span class=p>,</span> <span class=nx>callbackFunc</span> <span class=nx>CallbackFunc</span><span class=p>)</span> <span class=o>*</span><span class=nx>Timer</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>th</span><span class=p>.</span><span class=nx>lock</span><span class=p>.</span><span class=nf>Lock</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>timer</span><span class=p>.</span><span class=nx>Repeat</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>timer</span><span class=p>.</span><span class=nx>Interval</span> <span class=p>&lt;</span> <span class=nx>MinTimerInterval</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>timer</span><span class=p>.</span><span class=nx>Interval</span> <span class=p>=</span> <span class=nx>MinTimerInterval</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>timer</span><span class=p>.</span><span class=nx>FireTime</span><span class=p>.</span><span class=nf>IsZero</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>timer</span><span class=p>.</span><span class=nx>FireTime</span> <span class=p>=</span> <span class=nx>time</span><span class=p>.</span><span class=nf>Now</span><span class=p>().</span><span class=nf>Add</span><span class=p>(</span><span class=nx>timer</span><span class=p>.</span><span class=nx>Interval</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>timer</span><span class=p>.</span><span class=nx>callback</span> <span class=p>=</span> <span class=nx>callbackFunc</span>
+</span></span><span class=line><span class=cl>	<span class=nx>timer</span><span class=p>.</span><span class=nx>addSeq</span> <span class=p>=</span> <span class=nx>th</span><span class=p>.</span><span class=nx>nextAddSeq</span>
+</span></span><span class=line><span class=cl>	<span class=nx>th</span><span class=p>.</span><span class=nx>nextAddSeq</span> <span class=o>+=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>	<span class=nx>heap</span><span class=p>.</span><span class=nf>Push</span><span class=p>(</span><span class=nx>th</span><span class=p>,</span> <span class=o>&amp;</span><span class=nx>timer</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>th</span><span class=p>.</span><span class=nx>lock</span><span class=p>.</span><span class=nf>Unlock</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=o>&amp;</span><span class=nx>timer</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Tick 对定时器模块进行一次Tick
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>Tick</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>now</span> <span class=o>:=</span> <span class=nx>time</span><span class=p>.</span><span class=nf>Now</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>th</span><span class=p>.</span><span class=nx>lock</span><span class=p>.</span><span class=nf>Lock</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nx>th</span><span class=p>.</span><span class=nx>lock</span><span class=p>.</span><span class=nf>Unlock</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 没有任何定时器，返回
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=k>if</span> <span class=nx>th</span><span class=p>.</span><span class=nf>Len</span><span class=p>()</span> <span class=o>&lt;=</span> <span class=mi>0</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>break</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=c1>//堆顶,没有到时间的定时器，返回
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=k>if</span> <span class=nx>th</span><span class=p>.</span><span class=nx>timers</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nx>FireTime</span><span class=p>.</span><span class=nf>After</span><span class=p>(</span><span class=nx>now</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>break</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 从heap中拿出堆顶
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>t</span> <span class=o>:=</span> <span class=nx>heap</span><span class=p>.</span><span class=nf>Pop</span><span class=p>(</span><span class=nx>th</span><span class=p>).(</span><span class=o>*</span><span class=nx>Timer</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=c1>// 忽略已经取消的定时器
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=k>if</span> <span class=nx>t</span><span class=p>.</span><span class=nx>cancelled</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>continue</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 非周期任务，则下一次迭代中Pop()
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=k>if</span> <span class=p>!</span><span class=nx>t</span><span class=p>.</span><span class=nx>Repeat</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>t</span><span class=p>.</span><span class=nx>cancelled</span> <span class=p>=</span> <span class=kc>true</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=c1>// 同步协程执行回调
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=k>if</span> <span class=nx>th</span><span class=p>.</span><span class=nx>invokeMode</span> <span class=o>==</span> <span class=nx>defaultMode</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nf>runCallback</span><span class=p>(</span><span class=nx>t</span><span class=p>.</span><span class=nx>ID</span><span class=p>,</span> <span class=nx>t</span><span class=p>.</span><span class=nx>callback</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=c1>// 异步协程执行回调
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=k>if</span> <span class=nx>th</span><span class=p>.</span><span class=nx>invokeMode</span> <span class=o>==</span> <span class=nx>goroutineMode</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>go</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=nf>runCallback</span><span class=p>(</span><span class=nx>t</span><span class=p>.</span><span class=nx>ID</span><span class=p>,</span> <span class=nx>t</span><span class=p>.</span><span class=nx>callback</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>			<span class=p>}()</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 如果是循环timer就把Timer重新放回heap中
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=k>if</span> <span class=nx>t</span><span class=p>.</span><span class=nx>Repeat</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>t</span><span class=p>.</span><span class=nx>FireTime</span> <span class=p>=</span> <span class=nx>t</span><span class=p>.</span><span class=nx>FireTime</span><span class=p>.</span><span class=nf>Add</span><span class=p>(</span><span class=nx>t</span><span class=p>.</span><span class=nx>Interval</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span> <span class=p>!</span><span class=nx>t</span><span class=p>.</span><span class=nx>FireTime</span><span class=p>.</span><span class=nf>After</span><span class=p>(</span><span class=nx>now</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=nx>t</span><span class=p>.</span><span class=nx>FireTime</span> <span class=p>=</span> <span class=nx>now</span><span class=p>.</span><span class=nf>Add</span><span class=p>(</span><span class=nx>t</span><span class=p>.</span><span class=nx>Interval</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=nx>t</span><span class=p>.</span><span class=nx>addSeq</span> <span class=p>=</span> <span class=nx>th</span><span class=p>.</span><span class=nx>nextAddSeq</span>
+</span></span><span class=line><span class=cl>			<span class=nx>th</span><span class=p>.</span><span class=nx>nextAddSeq</span> <span class=o>+=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>			<span class=nx>heap</span><span class=p>.</span><span class=nf>Push</span><span class=p>(</span><span class=nx>th</span><span class=p>,</span> <span class=nx>t</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//func runHook(timer *Timer, fs ...func(timer *Timer)) error {
+</span></span></span><span class=line><span class=cl><span class=c1>//	for _, f := range fs {
+</span></span></span><span class=line><span class=cl><span class=c1>//		f(timer)
+</span></span></span><span class=line><span class=cl><span class=c1>//	}
+</span></span></span><span class=line><span class=cl><span class=c1>//}
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// AddRepeatTimerWithFixedMoment 设置一个定时触发的回调，每日的固定时刻(时分秒，UTC时间)执行，并调用callback函数
+</span></span></span><span class=line><span class=cl><span class=c1>//func (th *TimerHeap) AddRepeatTimerWithFixedMoment(h, m, s int, callback CallbackFunc, id uint64, tag string) *Timer {
+</span></span></span><span class=line><span class=cl><span class=c1>//	now := time.Now()
+</span></span></span><span class=line><span class=cl><span class=c1>//	next := time.Date(now.Year(), now.Month(), now.Day(), h, m, s, 0, time.UTC)
+</span></span></span><span class=line><span class=cl><span class=c1>//	var wait time.Duration
+</span></span></span><span class=line><span class=cl><span class=c1>//	if next.Sub(now) &gt; 0 {
+</span></span></span><span class=line><span class=cl><span class=c1>//		wait = next.Sub(now)
+</span></span></span><span class=line><span class=cl><span class=c1>//	} else {
+</span></span></span><span class=line><span class=cl><span class=c1>//		tomorrow := time.Date(now.Add(24*time.Hour).Year(), now.Add(24*time.Hour).Month(), now.Add(24*time.Hour).Day(), h, m, s, 0, time.UTC)
+</span></span></span><span class=line><span class=cl><span class=c1>//		wait = tomorrow.Sub(now)
+</span></span></span><span class=line><span class=cl><span class=c1>//	}
+</span></span></span><span class=line><span class=cl><span class=c1>//	t := &amp;Timer{
+</span></span></span><span class=line><span class=cl><span class=c1>//		ID:       id,
+</span></span></span><span class=line><span class=cl><span class=c1>//		FireTime: time.Now().Add(wait),
+</span></span></span><span class=line><span class=cl><span class=c1>//		Interval: 24 * time.Hour,
+</span></span></span><span class=line><span class=cl><span class=c1>//		Tag:      tag,
+</span></span></span><span class=line><span class=cl><span class=c1>//		callback: callback,
+</span></span></span><span class=line><span class=cl><span class=c1>//		Repeat:   true,
+</span></span></span><span class=line><span class=cl><span class=c1>//	}
+</span></span></span><span class=line><span class=cl><span class=c1>//	th.lock.Lock()
+</span></span></span><span class=line><span class=cl><span class=c1>//	t.addSeq = th.nextAddSeq
+</span></span></span><span class=line><span class=cl><span class=c1>//	th.nextAddSeq += 1
+</span></span></span><span class=line><span class=cl><span class=c1>//	heap.Push(th, t)
+</span></span></span><span class=line><span class=cl><span class=c1>//	th.lock.Unlock()
+</span></span></span><span class=line><span class=cl><span class=c1>//	return t
+</span></span></span><span class=line><span class=cl><span class=c1>//}
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// AddRepeatTimerNextClock 设置一个定时触发的回调，下一个整点时间开始执行，每间隔d时间重复触发，并调用callback函数
+</span></span></span><span class=line><span class=cl><span class=c1>//func (th *TimerHeap) AddRepeatTimerNextClock(d time.Duration, callback CallbackFunc, id uint64, tag string) *Timer {
+</span></span></span><span class=line><span class=cl><span class=c1>//	t1, _ := time.ParseInLocation(&#34;2006-01-02 15:04:05&#34;, time.Now().Format(&#34;2006-01-02 15:00:00&#34;), time.UTC)
+</span></span></span><span class=line><span class=cl><span class=c1>//	wait := time.Duration(t1.Truncate(1*time.Hour).Unix() + 3600 - time.Now().Unix())
+</span></span></span><span class=line><span class=cl><span class=c1>//	t := &amp;Timer{
+</span></span></span><span class=line><span class=cl><span class=c1>//		ID:       id,
+</span></span></span><span class=line><span class=cl><span class=c1>//		FireTime: time.Now().Add(wait),
+</span></span></span><span class=line><span class=cl><span class=c1>//		Interval: d,
+</span></span></span><span class=line><span class=cl><span class=c1>//		Tag:      tag,
+</span></span></span><span class=line><span class=cl><span class=c1>//		callback: callback,
+</span></span></span><span class=line><span class=cl><span class=c1>//		Repeat:   true,
+</span></span></span><span class=line><span class=cl><span class=c1>//	}
+</span></span></span><span class=line><span class=cl><span class=c1>//	th.lock.Lock()
+</span></span></span><span class=line><span class=cl><span class=c1>//	t.addSeq = th.nextAddSeq
+</span></span></span><span class=line><span class=cl><span class=c1>//	th.nextAddSeq += 1
+</span></span></span><span class=line><span class=cl><span class=c1>//	heap.Push(th, t)
+</span></span></span><span class=line><span class=cl><span class=c1>//	th.lock.Unlock()
+</span></span></span><span class=line><span class=cl><span class=c1>//	return t
+</span></span></span><span class=line><span class=cl><span class=c1>//}
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// StartTicks 创建一个goroutine对定时器模块进行定时的Tick
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>StartTicks</span><span class=p>(</span><span class=nx>tickInterval</span> <span class=nx>time</span><span class=p>.</span><span class=nx>Duration</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//th.stop = false
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>//go func() {
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>//	for th.stop {
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>//	}
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>//}()
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>go</span> <span class=nx>th</span><span class=p>.</span><span class=nf>selfTickRoutine</span><span class=p>(</span><span class=nx>tickInterval</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>Stop</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>th</span><span class=p>.</span><span class=nx>stop</span> <span class=p>=</span> <span class=kc>true</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>th</span> <span class=o>*</span><span class=nx>TimerHeap</span><span class=p>)</span> <span class=nf>selfTickRoutine</span><span class=p>(</span><span class=nx>tickInterval</span> <span class=nx>time</span><span class=p>.</span><span class=nx>Duration</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>tickInterval</span> <span class=p>&lt;</span> <span class=nx>MinTimerInterval</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>tickInterval</span> <span class=p>=</span> <span class=nx>MinTimerInterval</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>th</span><span class=p>.</span><span class=nx>stop</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=nx>time</span><span class=p>.</span><span class=nf>Sleep</span><span class=p>(</span><span class=nx>tickInterval</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=nx>th</span><span class=p>.</span><span class=nf>Tick</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 运行定时器的回调函数，并捕获panic，将panic转化为错误输出
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>runCallback</span><span class=p>(</span><span class=nx>id</span> <span class=kt>uint64</span><span class=p>,</span> <span class=nx>callback</span> <span class=nx>CallbackFunc</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>err</span> <span class=o>:=</span> <span class=nb>recover</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>logger</span><span class=p>.</span><span class=nx>Log</span><span class=p>.</span><span class=nf>Errorf</span><span class=p>(</span><span class=s>&#34;Callback %v panic: %v\n&#34;</span><span class=p>,</span> <span class=nx>id</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=kd>var</span> <span class=nx>buf</span> <span class=p>[</span><span class=mi>4096</span><span class=p>]</span><span class=kt>byte</span>
+</span></span><span class=line><span class=cl>			<span class=nx>n</span> <span class=o>:=</span> <span class=nx>runtime</span><span class=p>.</span><span class=nf>Stack</span><span class=p>(</span><span class=nx>buf</span><span class=p>[:],</span> <span class=kc>false</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=nx>logger</span><span class=p>.</span><span class=nx>Log</span><span class=p>.</span><span class=nf>Errorf</span><span class=p>(</span><span class=s>&#34;Callback exits from panic: %s\n&#34;</span><span class=p>,</span> <span class=nb>string</span><span class=p>(</span><span class=nx>buf</span><span class=p>[:</span><span class=nx>n</span><span class=p>]))</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}()</span>
+</span></span><span class=line><span class=cl>	<span class=nf>callback</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg><span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css integrity="sha256-J+iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s=" crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js integrity="sha256-InsNdER1b2xUewP+pKCUJpkhiqwHgqiPXDlIk7GzBu4=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI=" crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.querySelector(`.article-content`),{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/%E5%B7%A5%E5%85%B7/><div class=article-details><h2 class=article-title>excelize 库简介</h2></div></a></article><article><a href=/p/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/><div class=article-details><h2 class=article-title>web服务踩的坑</h2></div></a></article><article class=has-image><a href=/p/funjohnhow/><div class=article-image><img src=/p/funjohnhow/_hu43d2d81e576066052a6f5913b37b6310_577754_9a378cb65671c2cdd05b58633d9ec73e.png width=250 height=150 loading=lazy alt="Featured image of post 热部署方案小记" data-key=funJohnHow data-hash="md5-aVRRzy5d4y9ZwAlz4iUj4Q=="></div><div class=article-details><h2 class=article-title>热部署方案小记</h2></div></a></article><article><a href=/p/%E7%AE%97%E6%B3%95/><div class=article-details><h2 class=article-title>设计模式小试（一）</h2></div></a></article></div></div></aside><script src=https://utteranc.es/client.js repo=fangjionghao1/fJH-blog-comments issue-term=pathname crossorigin=anonymous async></script><style>.utterances{max-width:unset}</style><script>let utterancesLoaded=!1;function setUtterancesTheme(e){let t=document.querySelector(".utterances iframe");t&&t.contentWindow.postMessage({type:"set-theme",theme:`github-${e}`},"https://utteranc.es")}addEventListener("message",e=>{if(e.origin!=="https://utteranc.es")return;utterancesLoaded=!0,setUtterancesTheme(document.documentElement.dataset.scheme)}),window.addEventListener("onColorSchemeChange",e=>{if(!utterancesLoaded)return;setUtterancesTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2023 HOW个人博客</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.16.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script>
+<script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script><script src=/js/snow.js></script>
+<script src=/js/particles.js>particlesJS("particles-js",{particles:{number:{value:80,density:{enable:!0,value_area:800}},color:{value:"#ffffff"},shape:{type:"circle",stroke:{width:0,color:"#000000"},polygon:{nb_sides:5}},opacity:{value:.5,random:!1,anim:{enable:!1,speed:1,opacity_min:.1,sync:!1}},size:{value:3,random:!0,anim:{enable:!1,speed:40,size_min:.1,sync:!1}},line_linked:{enable:!0,distance:150,color:"#ffffff",opacity:.4,width:1},move:{enable:!0,speed:6,direction:"none",random:!1,straight:!1,out_mode:"out",bounce:!1,attract:{enable:!1,rotateX:600,rotateY:1200}}},interactivity:{detect_on:"canvas",events:{onhover:{enable:!0,mode:"repulse"},onclick:{enable:!0,mode:"push"},resize:!0},modes:{grab:{distance:400,line_linked:{opacity:1}},bubble:{distance:400,size:40,duration:2,opacity:8,speed:3},repulse:{distance:200,duration:.4},push:{particles_nb:4},remove:{particles_nb:2}}},retina_detect:!0})</script></body></html>
