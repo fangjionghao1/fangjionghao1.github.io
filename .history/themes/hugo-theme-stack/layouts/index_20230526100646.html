@@ -1,0 +1,38 @@
+{{ define "main" }} {{ $pages := where .Site.RegularPages "Type" "in"
+.Site.Params.mainSections }} {{ $notHidden := where .Site.RegularPages
+"Params.hidden" "!=" true }} {{ $filtered := ($pages | intersect $notHidden) }}
+{{ $pag := .Paginate ($filtered) }}
+
+<section class="article-list">
+  {{ range $index, $element := $pag.Pages }} {{ partial "article-list/default" .
+  }} {{ end }}
+</section>
+
+{{- partial "pagination.html" . -}} {{- partial "footer/footer" . -}} {{ end }}
+{{ define "right-sidebar" }} {{ partial "sidebar/right.html" (dict "Context" .
+"Scope" "homepage") }} {{ end }}
+<script>
+  document
+    .getElementById('editor-form')
+    .addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('content').value;
+
+      const response = await fetch('/.netlify/functions/submit-post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, content }),
+      });
+
+      if (response.ok) {
+        alert('文章已发布');
+        document.getElementById('editor-form').reset();
+      } else {
+        alert('发布文章时出错，请稍后重试');
+      }
+    });
+</script>

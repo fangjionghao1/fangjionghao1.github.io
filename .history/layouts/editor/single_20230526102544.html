@@ -1,0 +1,37 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+<form id="editor-form">
+  <label for="title">标题:</label>
+  <input type="text" id="title" name="title" required />
+  <br />
+  <label for="content">内容:</label>
+  <textarea id="content" name="content" rows="10" cols="30" required></textarea>
+  <br />
+  <button type="submit">发布文章</button>
+</form>
+{{ end }}
+<script>
+  document
+    .getElementById('editor-form')
+    .addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('content').value;
+
+      const response = await fetch('/.netlify/functions/submit-post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, content }),
+      });
+
+      if (response.ok) {
+        alert('文章已发布');
+        document.getElementById('editor-form').reset();
+      } else {
+        alert('发布文章时出错，请稍后重试');
+      }
+    });
+</script>

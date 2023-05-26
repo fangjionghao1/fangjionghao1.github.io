@@ -1,0 +1,13 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+<form id="editor-form">
+  <label for="title">标题:</label>
+  <input type="text" id="title" name="title" required />
+  <br />
+  <label for="content">内容:</label>
+  <textarea id="content" name="content" rows="10" cols="30" required></textarea>
+  <br />
+  <button type="submit">发布文章</button>
+</form>
+
+{{ end }}
